@@ -1,0 +1,17 @@
+{
+  "zone": "Lake_Superior",
+  "updated_at": "2026-02-03T20:45:31.685678",
+  "transports": [
+    {
+      "type": "ship",
+      "cargo_hs": "2601",
+      "cargo_name": "iron_ore",
+      "position": {
+        "lat": 47.5,
+        "lon": -88.0
+      },
+      "route_progress": "50%",
+      "eta": "2026-02-04T20:00:00Z"
+    }
+  ]
+}

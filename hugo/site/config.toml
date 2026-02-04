@@ -1,0 +1,12 @@
+baseURL = "http://localhost:1313/"
+languageCode = "en-us"
+title = "FreightZoneTracker"
+
+[params]
+  description = "Track freight movement through geographic zones"
+  author = "FreightZoneTracker"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

@@ -1,0 +1,273 @@
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Select Zone</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <select id="zoneSelector" class="form-select mb-3">
+                    <option value="Indiana">Indiana</option>
+                    <option value="Lake_Superior">Lake Superior</option>
+                    <option value="California">California</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <button id="refreshBtn" class="btn btn-primary">🔄 Refresh Data</button>
+                <button id="clearCustomZone" class="btn btn-secondary" style="display:none;">Clear Custom Zone</button>
+            </div>
+        </div>
+        <div id="dataInfo" class="text-muted small mt-2"></div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div id="map"></div>
+    </div>
+</div>
+
+<div class="mt-3">
+    <div class="card">
+        <div class="card-body">
+            <h6>Legend</h6>
+            <div class="row">
+                <div class="col-md-4">
+                    <span style="color: #2563eb;">🚢</span> Ship
+                </div>
+                <div class="col-md-4">
+                    <span style="color: #dc2626;">🚂</span> Train
+                </div>
+                <div class="col-md-4">
+                    <span style="color: #16a34a;">🚚</span> Truck
+                </div>
+            </div>
+            <p class="mt-2 mb-0 small text-muted">
+                <strong>Instructions:</strong> Select a zone from the dropdown to view freight data. 
+                Use the drawing tools on the map to create custom zones and filter data by bounds.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Wait for page to fully load including Leaflet
+window.addEventListener('DOMContentLoaded', function() {
+    // Check if Leaflet is loaded
+    if (typeof L === 'undefined') {
+        document.getElementById('dataInfo').innerHTML = '<span class="text-danger">⚠️ Map library failed to load. Please refresh the page.</span>';
+        return;
+    }
+
+(function() {
+    try {
+        // Initialize map centered on US
+        const map = L.map('map').setView([39.8283, -98.5795], 4);
+    
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 19
+    }).addTo(map);
+    
+    // Layer for markers
+    let markersLayer = L.layerGroup().addTo(map);
+    
+    // Layer for drawn items
+    let drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+    
+    // Add draw control
+    let drawControl = new L.Control.Draw({
+        edit: {
+            featureGroup: drawnItems
+        },
+        draw: {
+            polygon: true,
+            rectangle: true,
+            circle: false,
+            circlemarker: false,
+            marker: false,
+            polyline: false
+        }
+    });
+    map.addControl(drawControl);
+    
+    let currentZone = 'Indiana';
+    let allTransports = [];
+    let customBounds = null;
+    
+    // Zone center points
+    const zoneCenters = {
+        'Indiana': [40.2672, -86.1349],
+        'Lake_Superior': [47.75, -88.25],
+        'California': [36.7783, -119.4179]
+    };
+    
+    // Get marker icon based on type
+    function getMarkerIcon(type) {
+        const icons = {
+            'ship': '🚢',
+            'train': '🚂',
+            'truck': '🚚'
+        };
+        return L.divIcon({
+            html: `<div style="font-size: 24px;">${icons[type] || '📦'}</div>`,
+            className: 'custom-marker',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+    }
+    
+    // Check if point is in custom bounds
+    function isInCustomBounds(lat, lon) {
+        if (!customBounds) return true;
+        return customBounds.contains([lat, lon]);
+    }
+    
+    // Load and display data
+    function loadZoneData(zone) {
+        currentZone = zone;
+        const dataUrl = `/data/${zone}.json`;
+        
+        // Show loading message
+        document.getElementById('dataInfo').innerHTML = '<span class="text-muted">⏳ Loading data...</span>';
+        
+        fetch(dataUrl)
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        throw new Error(`No data available for ${zone}. Please run: python freightcli.py pipeline format --zone=${zone}`);
+                    }
+                    throw new Error('Data not found for zone: ' + zone);
+                }
+                return response.json();
+            })
+            .then(data => {
+                allTransports = data.transports || [];
+                
+                if (allTransports.length === 0) {
+                    document.getElementById('dataInfo').innerHTML = 
+                        `<span class="text-warning">⚠️ No transports found for ${zone}. Run the CLI to download data.</span>`;
+                    markersLayer.clearLayers();
+                    return;
+                }
+                
+                // Update info
+                const updated = new Date(data.updated_at).toLocaleString();
+                document.getElementById('dataInfo').innerHTML = 
+                    `<strong>${data.zone}</strong> | ${allTransports.length} transports | Updated: ${updated}`;
+                
+                // Display markers
+                displayMarkers();
+                
+                // Center map on zone
+                if (zoneCenters[zone]) {
+                    map.setView(zoneCenters[zone], 7);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading data:', error);
+                document.getElementById('dataInfo').innerHTML = 
+                    `<span class="text-danger">⚠️ ${error.message}</span>`;
+                markersLayer.clearLayers();
+            });
+    }
+    
+    // Display markers with optional filtering
+    function displayMarkers() {
+        markersLayer.clearLayers();
+        
+        const filtered = allTransports.filter(transport => {
+            return isInCustomBounds(transport.position.lat, transport.position.lon);
+        });
+        
+        filtered.forEach(transport => {
+            const marker = L.marker(
+                [transport.position.lat, transport.position.lon],
+                { icon: getMarkerIcon(transport.type) }
+            );
+            
+            // Create popup content
+            let popupContent = `
+                <div style="min-width: 200px;">
+                    <h6 class="mb-2"><strong>${transport.type.toUpperCase()}</strong></h6>
+                    <table class="table table-sm">
+                        <tr><td><strong>Cargo:</strong></td><td>${transport.cargo_name || 'Unknown'}</td></tr>
+                        <tr><td><strong>HS Code:</strong></td><td>${transport.cargo_hs}</td></tr>
+                        <tr><td><strong>Position:</strong></td><td>${transport.position.lat.toFixed(4)}, ${transport.position.lon.toFixed(4)}</td></tr>
+                        ${transport.route_progress ? `<tr><td><strong>Progress:</strong></td><td>${transport.route_progress}</td></tr>` : ''}
+                        ${transport.destination ? `<tr><td><strong>Destination:</strong></td><td>${transport.destination}</td></tr>` : ''}
+                        ${transport.eta ? `<tr><td><strong>ETA:</strong></td><td>${new Date(transport.eta).toLocaleString()}</td></tr>` : ''}
+                    </table>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent);
+            markersLayer.addLayer(marker);
+        });
+        
+        // Update count
+        const totalCount = allTransports.length;
+        const filteredCount = filtered.length;
+        if (customBounds && filteredCount < totalCount) {
+            document.getElementById('dataInfo').innerHTML += 
+                ` | Showing ${filteredCount} of ${totalCount} in custom zone`;
+        }
+    }
+    
+    // Event listeners
+    document.getElementById('zoneSelector').addEventListener('change', function(e) {
+        loadZoneData(e.target.value);
+    });
+    
+    document.getElementById('refreshBtn').addEventListener('click', function() {
+        loadZoneData(currentZone);
+    });
+    
+    document.getElementById('clearCustomZone').addEventListener('click', function() {
+        drawnItems.clearLayers();
+        customBounds = null;
+        this.style.display = 'none';
+        displayMarkers();
+    });
+    
+    // Handle drawn shapes
+    map.on(L.Draw.Event.CREATED, function(e) {
+        drawnItems.clearLayers();
+        const layer = e.layer;
+        drawnItems.addLayer(layer);
+        
+        // Get bounds
+        if (layer instanceof L.Polygon || layer instanceof L.Rectangle) {
+            customBounds = layer.getBounds();
+        }
+        
+        document.getElementById('clearCustomZone').style.display = 'inline-block';
+        displayMarkers();
+    });
+    
+    map.on(L.Draw.Event.EDITED, function(e) {
+        const layers = e.layers;
+        layers.eachLayer(function(layer) {
+            if (layer instanceof L.Polygon || layer instanceof L.Rectangle) {
+                customBounds = layer.getBounds();
+            }
+        });
+        displayMarkers();
+    });
+    
+    map.on(L.Draw.Event.DELETED, function(e) {
+        if (drawnItems.getLayers().length === 0) {
+            customBounds = null;
+            document.getElementById('clearCustomZone').style.display = 'none';
+            displayMarkers();
+        }
+    });
+    
+    // Initial load
+    loadZoneData(currentZone);
+    } catch (error) {
+        console.error('Error initializing map:', error);
+        document.getElementById('dataInfo').innerHTML = '<span class="text-danger">⚠️ Error loading map: ' + error.message + '</span>';
+    }
+})();
+});
+</script>

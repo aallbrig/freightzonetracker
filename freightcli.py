@@ -61,6 +61,7 @@ def init_db():
     """Initialize SQLite database with schema."""
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA foreign_keys = ON;")
     cursor = conn.cursor()
     
     # Sources table
@@ -126,15 +127,19 @@ def init_db():
     
     # Insert default sources
     sources = [
-        ('ships_marinetraffic', 'ships', 'https://api.marinetraffic.com/api', 'MARINETRAFFIC_API_KEY'),
+        ('ships_marinetraffic', 'ships', 'https://www.aishub.net/', 'AISHUB_USERNAME'),
         ('trains_aar', 'trains', 'https://www.aar.org/data-center/', None),
-        ('trucks_fmcsa', 'trucks', 'https://mobile.fmcsa.dot.gov/developer', 'FMCSA_API_KEY'),
+        ('trucks_fmcsa', 'trucks', 'https://ops.fhwa.dot.gov/freight/freight_analysis/faf/', None),
     ]
     
     for name, type_, url, api_key_env in sources:
         cursor.execute("""
-            INSERT OR IGNORE INTO sources (name, type, url, api_key_env)
+            INSERT INTO sources (name, type, url, api_key_env)
             VALUES (?, ?, ?, ?)
+            ON CONFLICT(name) DO UPDATE SET
+                type = excluded.type,
+                url = excluded.url,
+                api_key_env = excluded.api_key_env
         """, (name, type_, url, api_key_env))
     
     conn.commit()
@@ -162,6 +167,7 @@ def is_in_zone(lat: float, lon: float, zone: str) -> bool:
 def log_pipeline_run(command: str, status: str, error_message: Optional[str] = None):
     """Log pipeline run to database."""
     conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA foreign_keys = ON;")
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO pipeline_runs (command, status, error_message, completed_at)
@@ -172,25 +178,116 @@ def log_pipeline_run(command: str, status: str, error_message: Optional[str] = N
 
 
 def fetch_ships_data(zone: str, realtime: bool) -> dict:
-    """Fetch ship data from MarineTraffic API (mocked for MVP)."""
-    # In production, use real API with key from env
-    api_key = os.getenv('MARINETRAFFIC_API_KEY', 'demo_key')
-    
-    # Mock data for MVP
-    mock_data = {
-        'Indiana': [
-            {'mmsi': '367123456', 'lat': 41.8, 'lon': -87.6, 'cargo': 'coal', 'eta': '2026-02-05T08:00:00Z'},
-            {'mmsi': '367789012', 'lat': 41.5, 'lon': -87.2, 'cargo': 'containers', 'eta': '2026-02-06T14:00:00Z'},
-        ],
-        'Lake_Superior': [
-            {'mmsi': '316234567', 'lat': 47.5, 'lon': -88.0, 'cargo': 'iron_ore', 'eta': '2026-02-04T20:00:00Z'},
-        ],
-        'California': [
-            {'mmsi': '338456789', 'lat': 33.7, 'lon': -118.3, 'cargo': 'containers', 'eta': '2026-02-07T10:00:00Z'},
-        ],
+    """Fetch ship data from AISHub free API (real data) or fallback to mock."""
+    # Zone bounding boxes (lat_min, lat_max, lon_min, lon_max)
+    zone_bounds = {
+        'Indiana': (37.77, 41.76, -88.10, -84.78),  # Indiana + Lake Michigan shore
+        'Lake_Superior': (46.5, 49.0, -92.0, -84.5),  # Lake Superior
+        'California': (32.5, 42.0, -124.5, -114.0),  # California coast
     }
     
-    return {'ships': mock_data.get(zone, [])}
+    if zone not in zone_bounds:
+        typer.echo(f"⚠ Unknown zone: {zone}, using mock data")
+        return {'ships': []}
+    
+    # Try AISHub API (requires free account username)
+    aishub_user = os.getenv('AISHUB_USERNAME', '')
+    
+    if not aishub_user:
+        typer.echo("⚠ AISHUB_USERNAME not set, using mock data (get free account at https://www.aishub.net/)")
+        # Fallback to mock data
+        mock_data = {
+            'Indiana': [
+                {'mmsi': '367123456', 'lat': 41.8, 'lon': -87.6, 'cargo': 'coal', 'eta': '2026-02-05T08:00:00Z'},
+            ],
+            'Lake_Superior': [
+                {'mmsi': '316234567', 'lat': 47.5, 'lon': -88.0, 'cargo': 'iron_ore', 'eta': '2026-02-04T20:00:00Z'},
+            ],
+            'California': [
+                {'mmsi': '338456789', 'lat': 33.7, 'lon': -118.3, 'cargo': 'containers', 'eta': '2026-02-07T10:00:00Z'},
+            ],
+        }
+        return {'ships': mock_data.get(zone, [])}
+    
+    try:
+        lat_min, lat_max, lon_min, lon_max = zone_bounds[zone]
+        url = "http://data.aishub.net/ws.php"
+        params = {
+            'username': aishub_user,
+            'format': '1',
+            'output': 'json',
+            'compress': '0',
+            'latmin': lat_min,
+            'latmax': lat_max,
+            'lonmin': lon_min,
+            'lonmax': lon_max,
+        }
+        
+        typer.echo(f"🌐 Fetching real AIS data from AISHub for {zone}...")
+        response = requests.get(url, params=params, timeout=30)
+        response.raise_for_status()
+        
+        data = response.json()
+        ships = []
+        
+        # Parse AISHub response format: [{"MMSI": "...", "LAT": ..., "LON": ..., "SHIP_TYPE": ...}, ...]
+        for vessel in data:
+            if isinstance(vessel, dict):
+                # Infer cargo from ship type
+                ship_type = vessel.get('SHIP_TYPE', 0)
+                cargo = infer_cargo_from_ship_type(ship_type)
+                
+                ships.append({
+                    'mmsi': vessel.get('MMSI', 'unknown'),
+                    'lat': float(vessel.get('LAT', 0)),
+                    'lon': float(vessel.get('LON', 0)),
+                    'cargo': cargo,
+                    'ship_type': ship_type,
+                    'name': vessel.get('NAME', ''),
+                    'speed': vessel.get('SOG', 0),  # Speed over ground
+                    'course': vessel.get('COG', 0),  # Course over ground
+                    'eta': None,  # Not available in free tier
+                })
+        
+        typer.echo(f"✓ Found {len(ships)} vessels in {zone}")
+        return {'ships': ships}
+        
+    except Exception as e:
+        typer.echo(f"⚠ Error fetching AISHub data: {e}, using mock data")
+        mock_data = {
+            'Indiana': [
+                {'mmsi': '367123456', 'lat': 41.8, 'lon': -87.6, 'cargo': 'coal', 'eta': '2026-02-05T08:00:00Z'},
+            ],
+        }
+        return {'ships': mock_data.get(zone, [])}
+
+
+def infer_cargo_from_ship_type(ship_type: int) -> str:
+    """Infer cargo type from AIS ship type code."""
+    # AIS ship type codes: https://help.marinetraffic.com/hc/en-us/articles/205579997-What-is-the-significance-of-the-AIS-Shiptype-number-
+    cargo_map = {
+        70: 'general_cargo',  # Cargo ships
+        71: 'general_cargo',
+        72: 'general_cargo',
+        73: 'general_cargo',
+        74: 'general_cargo',
+        75: 'general_cargo',
+        76: 'general_cargo',
+        77: 'general_cargo',
+        78: 'general_cargo',
+        79: 'general_cargo',
+        80: 'crude_oil',  # Tankers
+        81: 'crude_oil',
+        82: 'crude_oil',
+        83: 'crude_oil',
+        84: 'crude_oil',
+        85: 'petroleum',
+        86: 'petroleum',
+        87: 'petroleum',
+        88: 'petroleum',
+        89: 'petroleum',
+    }
+    return cargo_map.get(ship_type, 'containers')  # Default to containers
 
 
 def fetch_trains_data(zone: str) -> dict:
@@ -227,7 +324,7 @@ def fetch_trucks_data(zone: str) -> dict:
 
 @pipeline_app.command("download")
 def pipeline_download(
-    source: str = typer.Option(..., help="Source name (e.g., ships_marinetraffic)"),
+    source: str = typer.Option(..., help="Source name (e.g., ships_marinetraffic or ships_aishub)"),
     zone: str = typer.Option(..., help="Zone name (e.g., Indiana)"),
     realtime: bool = typer.Option(False, help="Enable real-time mode")
 ):
@@ -239,8 +336,9 @@ def pipeline_download(
         typer.echo(f"Downloading {source} data for zone: {zone}")
         
         # Fetch data based on source
-        if source == 'ships_marinetraffic':
+        if source in {'ships_marinetraffic', 'ships_aishub'}:
             data = fetch_ships_data(zone, realtime)
+            source = 'ships_marinetraffic'
         elif source == 'trains_aar':
             data = fetch_trains_data(zone)
         elif source == 'trucks_fmcsa':
@@ -263,6 +361,7 @@ def pipeline_download(
         file_size = file_path.stat().st_size
         
         conn = sqlite3.connect(DB_PATH)
+        conn.execute("PRAGMA foreign_keys = ON;")
         cursor = conn.cursor()
         
         cursor.execute("SELECT id FROM sources WHERE name = ?", (source,))
@@ -320,6 +419,7 @@ def pipeline_extract(
         
         # Record extraction
         conn = sqlite3.connect(DB_PATH)
+        conn.execute("PRAGMA foreign_keys = ON;")
         cursor = conn.cursor()
         
         file_hash = get_file_hash(file_path)
@@ -361,6 +461,7 @@ def pipeline_format(
         
         # Find latest downloads for zone
         conn = sqlite3.connect(DB_PATH)
+        conn.execute("PRAGMA foreign_keys = ON;")
         cursor = conn.cursor()
         
         cursor.execute("""
@@ -470,9 +571,9 @@ def status():
     typer.echo("Checking data source connectivity...\n")
     
     sources = [
-        ('MarineTraffic API', 'https://api.marinetraffic.com', 'MARINETRAFFIC_API_KEY'),
+        ('AISHub AIS Feed', 'https://www.aishub.net', 'AISHUB_USERNAME'),
         ('AAR Rail Data', 'https://www.aar.org', None),
-        ('FMCSA API', 'https://mobile.fmcsa.dot.gov', 'FMCSA_API_KEY'),
+        ('FHWA Freight Analysis Framework', 'https://ops.fhwa.dot.gov/freight/freight_analysis/faf/', None),
     ]
     
     for name, url, api_key_env in sources:
@@ -482,8 +583,8 @@ def status():
             
             if api_key_env:
                 has_key = bool(os.getenv(api_key_env))
-                key_status = "✓" if has_key else "✗ (not set)"
-                typer.echo(f"{name}: {status_code} | API Key: {key_status}")
+                credential_status = "✓" if has_key else "✗ (not set)"
+                typer.echo(f"{name}: {status_code} | Credential: {credential_status}")
             else:
                 typer.echo(f"{name}: {status_code}")
         
@@ -520,6 +621,7 @@ def audit_dir():
     typer.echo(f"\nTotal: {file_count} files, {total_size / 1024:.2f} KB")
     
     conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA foreign_keys = ON;")
     cursor = conn.cursor()
     cursor.execute("INSERT INTO audits (audit_type, details) VALUES (?, ?)",
                    ('dir', f'{file_count} files, {total_size} bytes'))
@@ -535,6 +637,7 @@ def audit_db():
     typer.echo(f"Auditing database: {DB_PATH}\n")
     
     conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA foreign_keys = ON;")
     cursor = conn.cursor()
     
     tables = ['sources', 'downloads', 'extractions', 'audits', 'pipeline_runs']
@@ -569,6 +672,7 @@ def audit_data():
     init_db()
     
     conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA foreign_keys = ON;")
     cursor = conn.cursor()
     
     # Check for orphaned extractions
@@ -599,6 +703,7 @@ def audit_runs():
     init_db()
     
     conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA foreign_keys = ON;")
     cursor = conn.cursor()
     
     cursor.execute("""

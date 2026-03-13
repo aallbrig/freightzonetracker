@@ -48,16 +48,18 @@
 </div>
 
 <script>
-// Wait for page to fully load including Leaflet
-window.addEventListener('DOMContentLoaded', function() {
-    // Check if Leaflet is loaded
-    if (typeof L === 'undefined') {
-        document.getElementById('dataInfo').innerHTML = '<span class="text-danger">⚠️ Map library failed to load. Please refresh the page.</span>';
-        return;
-    }
-
+// Wait for Leaflet to load before initializing map
 (function() {
-    try {
+    function initializeMap() {
+        // Check if Leaflet is loaded
+        if (typeof L === 'undefined') {
+            console.log('Waiting for Leaflet to load...');
+            setTimeout(initializeMap, 100);
+            return;
+        }
+
+        console.log('Leaflet loaded, initializing map...');
+        try {
         // Initialize map centered on US
         const map = L.map('map').setView([39.8283, -98.5795], 4);
     
@@ -268,6 +270,13 @@ window.addEventListener('DOMContentLoaded', function() {
         console.error('Error initializing map:', error);
         document.getElementById('dataInfo').innerHTML = '<span class="text-danger">⚠️ Error loading map: ' + error.message + '</span>';
     }
+}
+
+// Start initialization when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeMap);
+} else {
+    initializeMap();
+}
 })();
-});
 </script>

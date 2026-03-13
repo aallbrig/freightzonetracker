@@ -1,11 +1,13 @@
 {
   "name": "freightzonetracker-tests",
   "version": "1.0.0",
-  "description": "E2E tests for FreightZoneTracker",
+  "description": "Test tooling for FreightZoneTracker",
   "scripts": {
-    "test": "node test-e2e.js"
+    "test": "node test-e2e.js",
+    "test:e2e": "node test-e2e.js",
+    "test:e2e:simple": "bash test-e2e-simple.sh"
   },
   "dependencies": {
-    "puppeteer": "^21.0.0"
+    "puppeteer": "^21.11.0"
   }
 }

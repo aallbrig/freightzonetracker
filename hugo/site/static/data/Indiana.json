@@ -1,29 +1,7 @@
 {
   "zone": "Indiana",
-  "updated_at": "2026-03-13 06:33:26",
+  "updated_at": "2026-03-13 12:28:25",
   "transports": [
-    {
-      "type": "truck",
-      "cargo_hs": "9999",
-      "cargo_name": "general_cargo",
-      "position": {
-        "lat": 39.8,
-        "lon": -86.15
-      },
-      "destination": "Indianapolis",
-      "route_progress": "75%"
-    },
-    {
-      "type": "truck",
-      "cargo_hs": "7208",
-      "cargo_name": "steel",
-      "position": {
-        "lat": 41.6,
-        "lon": -87.5
-      },
-      "destination": "Gary",
-      "route_progress": "75%"
-    },
     {
       "type": "train",
       "cargo_hs": "1001",
@@ -45,6 +23,28 @@
       },
       "destination": "Detroit",
       "route_progress": "60%"
+    },
+    {
+      "type": "truck",
+      "cargo_hs": "9999",
+      "cargo_name": "general_cargo",
+      "position": {
+        "lat": 39.8,
+        "lon": -86.15
+      },
+      "destination": "Indianapolis",
+      "route_progress": "75%"
+    },
+    {
+      "type": "truck",
+      "cargo_hs": "7208",
+      "cargo_name": "steel",
+      "position": {
+        "lat": 41.6,
+        "lon": -87.5
+      },
+      "destination": "Gary",
+      "route_progress": "75%"
     }
   ]
 }

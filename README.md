@@ -1,11 +1,16 @@
 # FreightZoneTracker
 
-A static web application for tracking freight movement (ships, trains, trucks) through predefined or custom zones. Features a Python CLI tool for data collection and a Hugo-based website for visualization.
+FreightZoneTracker is a maritime-first static web application for exploring freight movement through predefined or custom zones. It combines a Python CLI tool for data collection and formatting with a Hugo website for map-based visualization.
 
-## Features
+**Current MVP reality:** ships can use near-real-time AIS data via AISHub, while train and truck entries remain placeholders until the public-data parsers are implemented. See [REAL_DATA_SETUP.md](REAL_DATA_SETUP.md) for the honest source-by-source breakdown.
+
+## What the MVP does well
 
 - **Python CLI (`freightcli.py`)**: Fetch, extract, and format freight data from multiple sources
-- **Data Sources**: Ships (MarineTraffic API), Trains (AAR), Trucks (FMCSA/DOT)
+- **Data Sources**: 
+  - **Ships**: Near-real-time AIS data via AISHub (free tier) - real source support today
+  - **Trains**: Planned AAR weekly reports integration (currently placeholder data)
+  - **Trucks**: Planned DOT Freight Analysis Framework integration (currently placeholder data)
 - **Cargo Standardization**: Automatic mapping to HS (Harmonized System) codes
 - **SQLite Database**: Local storage with audit trails
 - **Hugo Website**: Static site with interactive OpenStreetMap visualization
@@ -16,13 +21,40 @@ A static web application for tracking freight movement (ships, trains, trucks) t
 - Python 3.8+
 - Hugo (latest version)
 - pip (Python package manager)
+- (Optional) Free AISHub account for real ship data
+
+## Quick Start
+
+**Demo with real AIS ship data** (or mock data if no credentials):
+
+```bash
+# 1. Setup (one time)
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+# 2. (Optional) Set AISHub credentials for REAL ship tracking
+export AISHUB_USERNAME="your_username"  # Get free account at https://www.aishub.net/
+
+# 3. Run the demo
+./demo-real-data.sh
+```
+
+Then visit http://localhost:1313 to see the map!
+
+## Documentation
+
+- **[DATA_SOURCES.md](DATA_SOURCES.md)** - Comprehensive guide to all available data sources, costs, and quality
+- **[REAL_DATA_SETUP.md](REAL_DATA_SETUP.md)** - Complete guide to setting up real data sources
+- **[IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)** - Technical implementation details and research findings
+- **[FIXES.md](FIXES.md)** - Bug-fix notes and testing details
 
 ## Installation
 
 ### 1. Install Python Dependencies
 
 ```bash
-pip install typer requests pandas
+pip install -r requirements.txt
 ```
 
 Or using a virtual environment (recommended):
@@ -30,7 +62,7 @@ Or using a virtual environment (recommended):
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install typer requests pandas
+pip install -r requirements.txt
 ```
 
 ### 2. Install Hugo
@@ -151,14 +183,37 @@ hugo --minify
 
 The static site will be generated in `hugo/site/public/`.
 
-### Deploy
+### Deploy to GitHub Pages
 
-Upload the `hugo/site/public/` directory to any static hosting service:
-- GitHub Pages
-- Netlify
-- Vercel
-- AWS S3 + CloudFront
-- Any web server
+This repository uses the modern GitHub Pages artifact flow. No `gh-pages` branch is needed.
+
+1. In GitHub repository settings, enable **Pages**.
+2. Set the Pages source to **GitHub Actions**.
+3. Push to `main` only when you want the current build promoted to production.
+
+The deployment workflow in `.github/workflows/deploy-pages.yml` builds the Hugo site and deploys the generated artifact with `actions/deploy-pages`.
+
+### Continuous Integration
+
+The CI workflow in `.github/workflows/ci.yml` runs on pushes to `main` and on pull requests. It:
+
+- installs Python, Node.js, and Hugo
+- runs `pytest`
+- runs the CLI/Hugo smoke tests in `test.sh`
+- starts a local Hugo server
+- runs the browser E2E tests
+
+### Release workflow
+
+- Keep work local while iterating.
+- Create logical commits as features harden.
+- Push to `main` when you want GitHub Pages updated.
+- Tag semver releases when the state is milestone-worthy:
+
+```bash
+git tag -a v0.2.0 -m "FreightZoneTracker v0.2.0"
+git push origin main --tags
+```
 
 ## Project Structure
 
@@ -190,16 +245,44 @@ freightzonetracker/
 - **Downloads**: `~/.local/share/freightcli/downloads/{source}/`
 - **Website Data**: `hugo/site/static/data/{zone}.json`
 
-## API Keys (Optional)
+## Data Sources & API Keys
 
-For production use with real APIs, set environment variables:
+### Ships (Real-Time AIS Data - FREE)
 
-```bash
-export MARINETRAFFIC_API_KEY="your_api_key_here"
-export FMCSA_API_KEY="your_api_key_here"
-```
+The CLI now uses **AISHub** for real vessel position tracking:
 
-The MVP includes mock data, so API keys are optional for testing.
+1. **Sign up for free account**: https://www.aishub.net/
+2. **Get your username** (no API key needed, just username)
+3. **Set environment variable**:
+   ```bash
+   export AISHUB_USERNAME="your_username"
+   ```
+4. **Limitations**: 
+   - Free tier: ~10 requests/minute
+   - Provides: Real vessel positions, ship type, speed, course
+   - Does NOT provide: Actual cargo manifest (inferred from vessel type)
+
+**Without AISHub credentials**, the CLI falls back to mock data.
+
+### Trains (AAR Weekly Reports)
+
+- **Source**: Association of American Railroads (https://www.aar.org/data-center/rail-traffic-data/)
+- **Data Type**: Aggregated weekly commodity volumes (NOT real-time positions)
+- **Access**: Public, no API (CSV/PDF downloads)
+- **Status**: Currently using mock data (manual download/parsing not yet implemented)
+
+### Trucks (FAF Regional Flows)
+
+- **Source**: DOT Freight Analysis Framework (https://ops.fhwa.dot.gov/freight/freight_analysis/faf/)
+- **Data Type**: Regional freight flow estimates (quarterly updates)
+- **Access**: Public datasets, no API
+- **Status**: Currently using mock data (dataset parsing not yet implemented)
+
+### Data Reality Check
+
+⚠️ **Important**: True real-time cargo manifests are NOT publicly available for any transport mode due to security and commercial confidentiality. The best we can do:
+- **Ships**: Real positions via AIS + cargo type inference
+- **Trains/Trucks**: Aggregate flows + position estimates
 
 ## HS Code Mapping
 
@@ -239,7 +322,7 @@ chmod +x freightcli.py
 
 ### Python Dependencies Missing
 ```bash
-pip install typer requests pandas
+pip install -r requirements.txt
 ```
 
 ### Hugo Not Found

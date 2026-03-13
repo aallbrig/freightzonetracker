@@ -203,6 +203,23 @@ The CI workflow in `.github/workflows/ci.yml` runs on pushes to `main` and on pu
 - starts a local Hugo server
 - runs the browser E2E tests
 
+### Scheduled data refresh
+
+The repository also includes `.github/workflows/refresh-data.yml`, which can:
+
+- run on a schedule every 6 hours
+- be triggered manually from the Actions tab
+- refresh the tracked zone JSON files in `hugo/site/static/data`
+- commit refreshed data back to `main` when the tracked output actually changes, which in turn triggers the Pages deploy workflow
+
+To enable real ship data in GitHub Actions, add this repository secret:
+
+```bash
+AISHUB_USERNAME=your_aishub_username
+```
+
+If the secret is not configured, the workflow still runs, but ship downloads fall back to the CLI's mock data behavior.
+
 ### Release workflow
 
 - Keep work local while iterating.

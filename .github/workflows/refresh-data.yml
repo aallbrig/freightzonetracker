@@ -1,0 +1,55 @@
+name: Refresh tracked data
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Refresh zone data
+        env:
+          AISHUB_USERNAME: ${{ secrets.AISHUB_USERNAME }}
+        run: |
+          set -euo pipefail
+          zones=("Indiana" "Lake_Superior" "California")
+
+          for zone in "${zones[@]}"; do
+            python freightcli.py pipeline download --source=ships_marinetraffic --zone="$zone" --realtime
+            python freightcli.py pipeline download --source=trains_aar --zone="$zone"
+            python freightcli.py pipeline download --source=trucks_fmcsa --zone="$zone"
+            python freightcli.py pipeline format --zone="$zone"
+          done
+
+      - name: Commit refreshed data
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- hugo/site/static/data; then
+            echo "No tracked data changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add hugo/site/static/data
+          git commit -m "chore: refresh tracked data" -m "Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
+          git push

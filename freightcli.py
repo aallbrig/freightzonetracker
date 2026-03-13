@@ -376,6 +376,7 @@ def pipeline_download(
         except sqlite3.IntegrityError:
             typer.echo(f"⚠ Duplicate data detected (same hash already exists)")
             conn.rollback()
+            file_path.unlink(missing_ok=True)
         
         conn.close()
         
@@ -465,7 +466,7 @@ def pipeline_format(
         cursor = conn.cursor()
         
         cursor.execute("""
-            SELECT d.file_path, s.type
+            SELECT d.file_path, s.type, d.downloaded_at
             FROM downloads d
             JOIN sources s ON d.source_id = s.id
             WHERE d.zone = ?
@@ -482,8 +483,9 @@ def pipeline_format(
         
         # Aggregate data
         transports = []
+        latest_downloaded_at = max((downloaded_at for _, _, downloaded_at in downloads), default=None)
         
-        for file_path, source_type in downloads:
+        for file_path, source_type, downloaded_at in downloads:
             try:
                 with open(file_path, 'r') as f:
                     data = json.load(f)
@@ -547,7 +549,7 @@ def pipeline_format(
         output_file = output_path / f"{zone}.json"
         formatted_data = {
             'zone': zone,
-            'updated_at': datetime.now().isoformat(),
+            'updated_at': latest_downloaded_at or datetime.now().isoformat(),
             'transports': transports
         }
         

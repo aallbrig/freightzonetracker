@@ -25,7 +25,14 @@ def _configure_test_paths(monkeypatch, tmp_path):
     return downloads_dir, db_path, output_dir
 
 
-def _insert_download_record(db_path: Path, source_name: str, zone: str, file_path: Path, realtime: bool = False):
+def _insert_download_record(
+    db_path: Path,
+    source_name: str,
+    zone: str,
+    file_path: Path,
+    realtime: bool = False,
+    downloaded_at: str | None = None,
+):
     file_hash = freightcli.get_file_hash(file_path)
     file_size = file_path.stat().st_size
 
@@ -33,13 +40,22 @@ def _insert_download_record(db_path: Path, source_name: str, zone: str, file_pat
     cursor = conn.cursor()
     cursor.execute("SELECT id FROM sources WHERE name = ?", (source_name,))
     source_id = cursor.fetchone()[0]
-    cursor.execute(
-        """
-        INSERT INTO downloads (source_id, zone, file_path, file_hash, file_size, realtime)
-        VALUES (?, ?, ?, ?, ?, ?)
-        """,
-        (source_id, zone, str(file_path), file_hash, file_size, realtime),
-    )
+    if downloaded_at is None:
+        cursor.execute(
+            """
+            INSERT INTO downloads (source_id, zone, file_path, file_hash, file_size, realtime)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (source_id, zone, str(file_path), file_hash, file_size, realtime),
+        )
+    else:
+        cursor.execute(
+            """
+            INSERT INTO downloads (source_id, zone, file_path, file_hash, file_size, realtime, downloaded_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            (source_id, zone, str(file_path), file_hash, file_size, realtime, downloaded_at),
+        )
     conn.commit()
     conn.close()
 
@@ -82,7 +98,14 @@ def test_pipeline_format_outputs_zone_json(monkeypatch, tmp_path):
             }
         )
     )
-    _insert_download_record(db_path, "ships_marinetraffic", "Indiana", ship_file, realtime=True)
+    _insert_download_record(
+        db_path,
+        "ships_marinetraffic",
+        "Indiana",
+        ship_file,
+        realtime=True,
+        downloaded_at="2026-03-01 12:34:56",
+    )
 
     train_file = downloads_dir / "trains_aar" / "Indiana_seed.json"
     train_file.parent.mkdir(parents=True, exist_ok=True)
@@ -91,7 +114,13 @@ def test_pipeline_format_outputs_zone_json(monkeypatch, tmp_path):
             {"trains": [{"train_id": "CN1234", "lat": 40.5, "lon": -86.5, "cargo": "grain", "destination": "Chicago"}]}
         )
     )
-    _insert_download_record(db_path, "trains_aar", "Indiana", train_file)
+    _insert_download_record(
+        db_path,
+        "trains_aar",
+        "Indiana",
+        train_file,
+        downloaded_at="2026-03-02 08:00:00",
+    )
 
     truck_file = downloads_dir / "trucks_fmcsa" / "Indiana_seed.json"
     truck_file.parent.mkdir(parents=True, exist_ok=True)
@@ -100,7 +129,13 @@ def test_pipeline_format_outputs_zone_json(monkeypatch, tmp_path):
             {"trucks": [{"truck_id": "TRK001", "lat": 39.8, "lon": -86.15, "cargo": "steel", "destination": "Gary"}]}
         )
     )
-    _insert_download_record(db_path, "trucks_fmcsa", "Indiana", truck_file)
+    _insert_download_record(
+        db_path,
+        "trucks_fmcsa",
+        "Indiana",
+        truck_file,
+        downloaded_at="2026-03-03 09:15:00",
+    )
 
     result = runner.invoke(
         freightcli.app,
@@ -113,6 +148,7 @@ def test_pipeline_format_outputs_zone_json(monkeypatch, tmp_path):
 
     formatted = json.loads(output_file.read_text())
     assert formatted["zone"] == "Indiana"
+    assert formatted["updated_at"] == "2026-03-03 09:15:00"
     assert len(formatted["transports"]) == 3
     assert {item["type"] for item in formatted["transports"]} == {"ship", "train", "truck"}
     assert {item["cargo_hs"] for item in formatted["transports"]} >= {"8609", "1001", "7208"}

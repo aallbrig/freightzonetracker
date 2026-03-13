@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 *.so
 .Python
+.pytest_cache/
 venv/
 env/
 ENV/
@@ -25,6 +26,9 @@ downloads/
 *.swp
 *.swo
 *~
+
+# Node
+node_modules/
 
 # OS
 .DS_Store

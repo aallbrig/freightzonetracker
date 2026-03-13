@@ -1,83 +1,77 @@
 #!/bin/bash
 # Test script for FreightZoneTracker
 
+set -euo pipefail
+
+SITE_PORT="${SITE_PORT:-13131}"
+SITE_URL="${SITE_URL:-http://127.0.0.1:${SITE_PORT}}"
+HUGO_LOG="$(mktemp)"
+FORMAT_OUTPUT_DIR="$(mktemp -d)"
+HUGO_PID=""
+
+cleanup() {
+    if [ -n "$HUGO_PID" ] && kill -0 "$HUGO_PID" 2>/dev/null; then
+        kill "$HUGO_PID"
+    fi
+    rm -f "$HUGO_LOG"
+    rm -rf "$FORMAT_OUTPUT_DIR"
+}
+
+trap cleanup EXIT
+
 echo "🧪 Testing FreightZoneTracker MVP"
 echo "=================================="
 echo ""
 
-# Activate virtual environment
-source venv/bin/activate
+if [ -f "venv/bin/activate" ]; then
+    # shellcheck disable=SC1091
+    source venv/bin/activate
+fi
 
+echo "0. Running Python unit tests..."
+pytest -q
+echo "   ✓ Python unit tests passed"
+
+echo ""
 echo "1. Testing CLI help..."
 python freightcli.py --help > /dev/null 2>&1
-if [ $? -eq 0 ]; then
-    echo "   ✓ CLI help works"
-else
-    echo "   ✗ CLI help failed"
-    exit 1
-fi
+echo "   ✓ CLI help works"
 
 echo ""
 echo "2. Testing status command..."
 python freightcli.py status > /dev/null 2>&1
-if [ $? -eq 0 ]; then
-    echo "   ✓ Status command works"
-else
-    echo "   ✗ Status command failed"
-    exit 1
-fi
+echo "   ✓ Status command works"
 
 echo ""
 echo "3. Testing pipeline download..."
 python freightcli.py pipeline download --source=ships_marinetraffic --zone=Indiana > /dev/null 2>&1
-if [ $? -eq 0 ]; then
-    echo "   ✓ Pipeline download works"
-else
-    echo "   ✗ Pipeline download failed"
-    exit 1
-fi
+echo "   ✓ Pipeline download works"
 
 echo ""
 echo "4. Testing pipeline format..."
-python freightcli.py pipeline format --zone=Indiana > /dev/null 2>&1
-if [ $? -eq 0 ]; then
-    echo "   ✓ Pipeline format works"
-else
-    echo "   ✗ Pipeline format failed"
-    exit 1
-fi
+python freightcli.py pipeline format --zone=Indiana --output-dir "$FORMAT_OUTPUT_DIR" > /dev/null 2>&1
+echo "   ✓ Pipeline format works"
 
 echo ""
 echo "5. Testing audit commands..."
 python freightcli.py audit db > /dev/null 2>&1
-if [ $? -eq 0 ]; then
-    echo "   ✓ Audit db works"
-else
-    echo "   ✗ Audit db failed"
-    exit 1
-fi
+echo "   ✓ Audit db works"
 
 echo ""
 echo "6. Testing Hugo build..."
-cd hugo/site
-hugo --quiet
-if [ $? -eq 0 ]; then
-    echo "   ✓ Hugo build works"
-else
-    echo "   ✗ Hugo build failed"
-    exit 1
-fi
+(cd hugo/site && hugo --quiet)
+echo "   ✓ Hugo build works"
 
 echo ""
 echo "7. Checking generated files..."
-if [ -f "public/index.html" ]; then
+if [ -f "hugo/site/public/index.html" ]; then
     echo "   ✓ index.html generated"
 else
     echo "   ✗ index.html not found"
     exit 1
 fi
 
-if [ -d "public/data" ]; then
+if [ -d "hugo/site/public/data" ]; then
     echo "   ✓ data directory exists"
 else
     echo "   ✗ data directory not found"
@@ -85,17 +79,37 @@ else
 fi
 
 echo ""
-echo "✅ All tests passed!"
+echo "8. Starting Hugo test server..."
+(cd hugo/site && hugo server --bind 127.0.0.1 --port "$SITE_PORT" --baseURL "$SITE_URL/" --disableFastRender > "$HUGO_LOG" 2>&1) &
+HUGO_PID=$!
+
+for _ in $(seq 1 20); do
+    if curl -fsS "$SITE_URL/" > /dev/null 2>&1; then
+        break
+    fi
+    sleep 1
+done
+
+if ! curl -fsS "$SITE_URL/" > /dev/null 2>&1; then
+    echo "   ✗ Hugo test server did not start"
+    cat "$HUGO_LOG"
+    exit 1
+fi
+echo "   ✓ Hugo test server is running"
+
 echo ""
-echo "Running E2E tests..."
-cd /home/aallbright/src/freightzonetracker
-bash test-e2e-simple.sh
+echo "9. Running simple E2E tests..."
+SITE_URL="$SITE_URL" bash test-e2e-simple.sh
+
+echo ""
+echo "10. Running browser E2E tests..."
+SITE_URL="$SITE_URL" npm test
 
 echo ""
 echo "═══════════════════════════════════════"
-echo "✅ All tests (unit + E2E) passed!"
+echo "✅ All tests passed!"
 echo "═══════════════════════════════════════"
 echo ""
-echo "To view the site, run:"
+echo "To view the site locally, run:"
 echo "  cd hugo/site && hugo server"
 echo "  Then visit: http://localhost:1313"

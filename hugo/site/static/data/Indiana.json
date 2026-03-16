@@ -1,29 +1,7 @@
 {
   "zone": "Indiana",
-  "updated_at": "2026-03-16 00:58:44",
+  "updated_at": "2026-03-16 06:49:11",
   "transports": [
-    {
-      "type": "train",
-      "cargo_hs": "1001",
-      "cargo_name": "grain",
-      "position": {
-        "lat": 40.5,
-        "lon": -86.5
-      },
-      "destination": "Chicago",
-      "route_progress": "60%"
-    },
-    {
-      "type": "train",
-      "cargo_hs": "8703",
-      "cargo_name": "automobiles",
-      "position": {
-        "lat": 39.9,
-        "lon": -86.0
-      },
-      "destination": "Detroit",
-      "route_progress": "60%"
-    },
     {
       "type": "truck",
       "cargo_hs": "9999",
@@ -45,6 +23,28 @@
       },
       "destination": "Gary",
       "route_progress": "75%"
+    },
+    {
+      "type": "train",
+      "cargo_hs": "1001",
+      "cargo_name": "grain",
+      "position": {
+        "lat": 40.5,
+        "lon": -86.5
+      },
+      "destination": "Chicago",
+      "route_progress": "60%"
+    },
+    {
+      "type": "train",
+      "cargo_hs": "8703",
+      "cargo_name": "automobiles",
+      "position": {
+        "lat": 39.9,
+        "lon": -86.0
+      },
+      "destination": "Detroit",
+      "route_progress": "60%"
     }
   ]
 }

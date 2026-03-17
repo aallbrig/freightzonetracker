@@ -1,18 +1,7 @@
 {
   "zone": "California",
-  "updated_at": "2026-03-16 18:35:43",
+  "updated_at": "2026-03-17 00:50:49",
   "transports": [
-    {
-      "type": "ship",
-      "cargo_hs": "8609",
-      "cargo_name": "containers",
-      "position": {
-        "lat": 33.7,
-        "lon": -118.3
-      },
-      "route_progress": "50%",
-      "eta": "2026-02-07T10:00:00Z"
-    },
     {
       "type": "train",
       "cargo_hs": "8609",
@@ -34,6 +23,17 @@
       },
       "destination": "San Francisco",
       "route_progress": "75%"
+    },
+    {
+      "type": "ship",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 33.7,
+        "lon": -118.3
+      },
+      "route_progress": "50%",
+      "eta": "2026-02-07T10:00:00Z"
     }
   ]
 }

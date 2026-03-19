@@ -1,18 +1,7 @@
 {
   "zone": "California",
-  "updated_at": "2026-03-19 12:30:07",
+  "updated_at": "2026-03-19 18:33:53",
   "transports": [
-    {
-      "type": "train",
-      "cargo_hs": "8609",
-      "cargo_name": "containers",
-      "position": {
-        "lat": 34.0,
-        "lon": -118.2
-      },
-      "destination": "Los Angeles",
-      "route_progress": "60%"
-    },
     {
       "type": "truck",
       "cargo_hs": "9999",
@@ -34,6 +23,17 @@
       },
       "route_progress": "50%",
       "eta": "2026-02-07T10:00:00Z"
+    },
+    {
+      "type": "train",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 34.0,
+        "lon": -118.2
+      },
+      "destination": "Los Angeles",
+      "route_progress": "60%"
     }
   ]
 }

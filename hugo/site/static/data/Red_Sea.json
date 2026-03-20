@@ -1,0 +1,58 @@
+{
+  "zone": "Red_Sea",
+  "zone_name": "Red Sea",
+  "zone_description": "Critical transit corridor linking the Suez Canal to the Indian Ocean.",
+  "bounds": {
+    "lat_min": 12.0,
+    "lat_max": 28.5,
+    "lon_min": 32.0,
+    "lon_max": 44.0
+  },
+  "key_ports": [
+    "Jeddah",
+    "Aden",
+    "Hodeidah",
+    "Djibouti"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 1,
+  "stats": {
+    "ships": 1,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "LR",
+        1,
+        "Liberia"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Cargo",
+        1
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "636456789",
+      "name": "ATLAS CARRIER",
+      "flag": "LR",
+      "flag_name": "Liberia",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 20.5,
+        "lon": 39.5
+      },
+      "speed": 14.5,
+      "heading": 315,
+      "destination": "JEDDAH",
+      "eta": null
+    }
+  ]
+}

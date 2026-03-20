@@ -1,0 +1,108 @@
+{
+  "zone": "West_Coast_US",
+  "zone_name": "US West Coast",
+  "zone_description": "Pacific gateway for transpacific container trade and bulk commodities.",
+  "bounds": {
+    "lat_min": 32.0,
+    "lat_max": 49.0,
+    "lon_min": -125.0,
+    "lon_max": -115.0
+  },
+  "key_ports": [
+    "Los Angeles",
+    "Long Beach",
+    "Seattle",
+    "Tacoma",
+    "Oakland",
+    "Vancouver"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 3,
+  "stats": {
+    "ships": 3,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "US",
+        1,
+        "United States"
+      ],
+      [
+        "KR",
+        1,
+        "South Korea"
+      ],
+      [
+        "CN",
+        1,
+        "China"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Cargo",
+        3
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "338789012",
+      "name": "PRESIDENT KENNEDY",
+      "flag": "US",
+      "flag_name": "United States",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 33.7,
+        "lon": -118.3
+      },
+      "speed": 15.8,
+      "heading": 270,
+      "destination": "LOS ANGELES",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "440123456",
+      "name": "HYUNDAI UNITY",
+      "flag": "KR",
+      "flag_name": "South Korea",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8703",
+      "cargo_name": "automobiles",
+      "position": {
+        "lat": 37.8,
+        "lon": -122.4
+      },
+      "speed": 13.2,
+      "heading": 90,
+      "destination": "OAKLAND",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "412456789",
+      "name": "COSCO SHIPPING",
+      "flag": "CN",
+      "flag_name": "China",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 47.6,
+        "lon": -124.0
+      },
+      "speed": 17.1,
+      "heading": 90,
+      "destination": "SEATTLE",
+      "eta": null
+    }
+  ]
+}

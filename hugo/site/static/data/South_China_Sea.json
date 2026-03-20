@@ -1,0 +1,83 @@
+{
+  "zone": "South_China_Sea",
+  "zone_name": "South China Sea",
+  "zone_description": "Major transpacific shipping route handling one-third of global maritime trade volume.",
+  "bounds": {
+    "lat_min": 0.0,
+    "lat_max": 25.0,
+    "lon_min": 105.0,
+    "lon_max": 122.0
+  },
+  "key_ports": [
+    "Hong Kong",
+    "Shenzhen",
+    "Ho Chi Minh City",
+    "Manila",
+    "Kaohsiung"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 2,
+  "stats": {
+    "ships": 2,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "HK",
+        1,
+        "Hong Kong"
+      ],
+      [
+        "CN",
+        1,
+        "China"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Cargo",
+        2
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "477789012",
+      "name": "COSCO EUROPE",
+      "flag": "HK",
+      "flag_name": "Hong Kong",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 18.5,
+        "lon": 114.2
+      },
+      "speed": 16.4,
+      "heading": 315,
+      "destination": "HONG KONG",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "412789012",
+      "name": "MINSHENG GLORY",
+      "flag": "CN",
+      "flag_name": "China",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "9999",
+      "cargo_name": "general_cargo",
+      "position": {
+        "lat": 10.2,
+        "lon": 110.5
+      },
+      "speed": 12.1,
+      "heading": null,
+      "destination": "SHANGHAI",
+      "eta": null
+    }
+  ]
+}

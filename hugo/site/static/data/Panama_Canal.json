@@ -1,0 +1,57 @@
+{
+  "zone": "Panama_Canal",
+  "zone_name": "Panama Canal",
+  "zone_description": "Engineering marvel connecting Pacific and Atlantic Oceans, handling over 13,000 vessels annually.",
+  "bounds": {
+    "lat_min": 7.5,
+    "lat_max": 10.5,
+    "lon_min": -80.5,
+    "lon_max": -77.5
+  },
+  "key_ports": [
+    "Balboa",
+    "Cristobal",
+    "Panama City"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 1,
+  "stats": {
+    "ships": 1,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "PA",
+        1,
+        "Panama"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Cargo",
+        1
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "352123456",
+      "name": "NEOPANAMAX EXPRESS",
+      "flag": "PA",
+      "flag_name": "Panama",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 9.1,
+        "lon": -79.6
+      },
+      "speed": 5.0,
+      "heading": 315,
+      "destination": "BALBOA",
+      "eta": null
+    }
+  ]
+}

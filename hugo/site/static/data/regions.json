@@ -1,0 +1,448 @@
+{
+  "updated_at": "2026-03-20T18:16:59.403310",
+  "region_count": 17,
+  "regions": [
+    {
+      "id": "English_Channel",
+      "name": "English Channel",
+      "description": "One of the most congested shipping lanes in the world with over 500 ships transiting daily.",
+      "center": [
+        50.5,
+        -1.5
+      ],
+      "zoom": 7,
+      "bounds": {
+        "lat_min": 49.0,
+        "lat_max": 52.0,
+        "lon_min": -5.5,
+        "lon_max": 2.5
+      },
+      "key_ports": [
+        "Dover",
+        "Calais",
+        "Southampton",
+        "Le Havre",
+        "Portsmouth"
+      ],
+      "vessel_count": 4,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/English_Channel.json"
+    },
+    {
+      "id": "Great_Lakes",
+      "name": "Great Lakes",
+      "description": "Five interconnected freshwater lakes forming North America's largest freshwater lake system, central to bulk cargo shipping.",
+      "center": [
+        46.0,
+        -84.0
+      ],
+      "zoom": 6,
+      "bounds": {
+        "lat_min": 41.5,
+        "lat_max": 49.0,
+        "lon_min": -92.5,
+        "lon_max": -75.5
+      },
+      "key_ports": [
+        "Duluth-Superior",
+        "Chicago",
+        "Detroit",
+        "Cleveland",
+        "Buffalo",
+        "Hamilton"
+      ],
+      "vessel_count": 4,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/Great_Lakes.json"
+    },
+    {
+      "id": "North_Sea",
+      "name": "North Sea",
+      "description": "One of the world's busiest shipping lanes connecting major European ports.",
+      "center": [
+        56.0,
+        4.0
+      ],
+      "zoom": 6,
+      "bounds": {
+        "lat_min": 51.0,
+        "lat_max": 61.0,
+        "lon_min": -4.0,
+        "lon_max": 10.0
+      },
+      "key_ports": [
+        "Rotterdam",
+        "Antwerp",
+        "Hamburg",
+        "Amsterdam",
+        "Felixstowe",
+        "Oslo"
+      ],
+      "vessel_count": 4,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/North_Sea.json"
+    },
+    {
+      "id": "Gulf_of_Mexico",
+      "name": "Gulf of Mexico",
+      "description": "Critical hub for petroleum exports and bulk agricultural commodities from the US interior.",
+      "center": [
+        24.5,
+        -89.5
+      ],
+      "zoom": 6,
+      "bounds": {
+        "lat_min": 18.0,
+        "lat_max": 31.0,
+        "lon_min": -98.0,
+        "lon_max": -81.0
+      },
+      "key_ports": [
+        "New Orleans",
+        "Houston",
+        "Tampa",
+        "Mobile",
+        "Corpus Christi",
+        "Veracruz"
+      ],
+      "vessel_count": 3,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/Gulf_of_Mexico.json"
+    },
+    {
+      "id": "Mediterranean",
+      "name": "Mediterranean Sea",
+      "description": "Historic crossroads of European, Middle Eastern, and African maritime trade.",
+      "center": [
+        37.5,
+        15.0
+      ],
+      "zoom": 5,
+      "bounds": {
+        "lat_min": 30.0,
+        "lat_max": 46.0,
+        "lon_min": -6.0,
+        "lon_max": 37.0
+      },
+      "key_ports": [
+        "Barcelona",
+        "Marseille",
+        "Genoa",
+        "Piraeus",
+        "Istanbul",
+        "Alexandria"
+      ],
+      "vessel_count": 3,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/Mediterranean.json"
+    },
+    {
+      "id": "Strait_of_Malacca",
+      "name": "Strait of Malacca",
+      "description": "One of the most important shipping chokepoints in the world, between Malaysia and Indonesia.",
+      "center": [
+        3.0,
+        101.0
+      ],
+      "zoom": 7,
+      "bounds": {
+        "lat_min": 1.0,
+        "lat_max": 6.5,
+        "lon_min": 99.5,
+        "lon_max": 104.5
+      },
+      "key_ports": [
+        "Singapore",
+        "Port Klang",
+        "Penang",
+        "Batam"
+      ],
+      "vessel_count": 3,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/Strait_of_Malacca.json"
+    },
+    {
+      "id": "East_Coast_US",
+      "name": "US East Coast",
+      "description": "Major container ports handling transatlantic and coastal trade.",
+      "center": [
+        35.5,
+        -74.5
+      ],
+      "zoom": 5,
+      "bounds": {
+        "lat_min": 25.0,
+        "lat_max": 46.0,
+        "lon_min": -82.0,
+        "lon_max": -66.0
+      },
+      "key_ports": [
+        "New York",
+        "Savannah",
+        "Charleston",
+        "Baltimore",
+        "Norfolk",
+        "Miami"
+      ],
+      "vessel_count": 3,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/East_Coast_US.json"
+    },
+    {
+      "id": "West_Coast_US",
+      "name": "US West Coast",
+      "description": "Pacific gateway for transpacific container trade and bulk commodities.",
+      "center": [
+        39.0,
+        -121.0
+      ],
+      "zoom": 5,
+      "bounds": {
+        "lat_min": 32.0,
+        "lat_max": 49.0,
+        "lon_min": -125.0,
+        "lon_max": -115.0
+      },
+      "key_ports": [
+        "Los Angeles",
+        "Long Beach",
+        "Seattle",
+        "Tacoma",
+        "Oakland",
+        "Vancouver"
+      ],
+      "vessel_count": 3,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/West_Coast_US.json"
+    },
+    {
+      "id": "East_China_Sea",
+      "name": "East China Sea",
+      "description": "High-traffic maritime zone between China, Japan, South Korea, and Taiwan.",
+      "center": [
+        30.0,
+        125.0
+      ],
+      "zoom": 6,
+      "bounds": {
+        "lat_min": 24.0,
+        "lat_max": 36.0,
+        "lon_min": 118.0,
+        "lon_max": 132.0
+      },
+      "key_ports": [
+        "Shanghai",
+        "Ningbo",
+        "Osaka",
+        "Busan",
+        "Taipei"
+      ],
+      "vessel_count": 2,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/East_China_Sea.json"
+    },
+    {
+      "id": "Persian_Gulf",
+      "name": "Persian Gulf",
+      "description": "Major petroleum export hub handling a significant fraction of global oil shipments.",
+      "center": [
+        26.0,
+        53.0
+      ],
+      "zoom": 6,
+      "bounds": {
+        "lat_min": 22.0,
+        "lat_max": 30.0,
+        "lon_min": 48.0,
+        "lon_max": 58.0
+      },
+      "key_ports": [
+        "Dubai",
+        "Abu Dhabi",
+        "Kuwait City",
+        "Bandar Abbas",
+        "Dammam"
+      ],
+      "vessel_count": 2,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/Persian_Gulf.json"
+    },
+    {
+      "id": "South_China_Sea",
+      "name": "South China Sea",
+      "description": "Major transpacific shipping route handling one-third of global maritime trade volume.",
+      "center": [
+        13.0,
+        113.0
+      ],
+      "zoom": 5,
+      "bounds": {
+        "lat_min": 0.0,
+        "lat_max": 25.0,
+        "lon_min": 105.0,
+        "lon_max": 122.0
+      },
+      "key_ports": [
+        "Hong Kong",
+        "Shenzhen",
+        "Ho Chi Minh City",
+        "Manila",
+        "Kaohsiung"
+      ],
+      "vessel_count": 2,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/South_China_Sea.json"
+    },
+    {
+      "id": "Suez_Canal",
+      "name": "Suez Canal",
+      "description": "World's most important artificial waterway connecting the Mediterranean to the Red Sea.",
+      "center": [
+        30.5,
+        32.5
+      ],
+      "zoom": 7,
+      "bounds": {
+        "lat_min": 28.5,
+        "lat_max": 32.5,
+        "lon_min": 31.5,
+        "lon_max": 36.0
+      },
+      "key_ports": [
+        "Port Said",
+        "Suez",
+        "Ismailia"
+      ],
+      "vessel_count": 2,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/Suez_Canal.json"
+    },
+    {
+      "id": "Bay_of_Bengal",
+      "name": "Bay of Bengal",
+      "description": "Important route for South Asian trade, serving Bangladesh, India, and Myanmar.",
+      "center": [
+        14.0,
+        89.0
+      ],
+      "zoom": 5,
+      "bounds": {
+        "lat_min": 5.0,
+        "lat_max": 23.0,
+        "lon_min": 78.0,
+        "lon_max": 100.0
+      },
+      "key_ports": [
+        "Chittagong",
+        "Chennai",
+        "Kolkata",
+        "Yangon",
+        "Colombo"
+      ],
+      "vessel_count": 1,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/Bay_of_Bengal.json"
+    },
+    {
+      "id": "Caribbean",
+      "name": "Caribbean Sea",
+      "description": "Key transit zone for vessels moving between the Atlantic and the Panama Canal.",
+      "center": [
+        17.0,
+        -74.0
+      ],
+      "zoom": 5,
+      "bounds": {
+        "lat_min": 9.0,
+        "lat_max": 24.0,
+        "lon_min": -88.0,
+        "lon_max": -59.0
+      },
+      "key_ports": [
+        "Kingston",
+        "Cartagena",
+        "Havana",
+        "Willemstad",
+        "Port of Spain"
+      ],
+      "vessel_count": 1,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/Caribbean.json"
+    },
+    {
+      "id": "Panama_Canal",
+      "name": "Panama Canal",
+      "description": "Engineering marvel connecting Pacific and Atlantic Oceans, handling over 13,000 vessels annually.",
+      "center": [
+        9.0,
+        -79.5
+      ],
+      "zoom": 8,
+      "bounds": {
+        "lat_min": 7.5,
+        "lat_max": 10.5,
+        "lon_min": -80.5,
+        "lon_max": -77.5
+      },
+      "key_ports": [
+        "Balboa",
+        "Cristobal",
+        "Panama City"
+      ],
+      "vessel_count": 1,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/Panama_Canal.json"
+    },
+    {
+      "id": "Red_Sea",
+      "name": "Red Sea",
+      "description": "Critical transit corridor linking the Suez Canal to the Indian Ocean.",
+      "center": [
+        20.0,
+        38.0
+      ],
+      "zoom": 6,
+      "bounds": {
+        "lat_min": 12.0,
+        "lat_max": 28.5,
+        "lon_min": 32.0,
+        "lon_max": 44.0
+      },
+      "key_ports": [
+        "Jeddah",
+        "Aden",
+        "Hodeidah",
+        "Djibouti"
+      ],
+      "vessel_count": 1,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/Red_Sea.json"
+    },
+    {
+      "id": "Indian_Ocean_West",
+      "name": "Western Indian Ocean",
+      "description": "Key route for oil tankers from the Persian Gulf to Europe and the Americas.",
+      "center": [
+        -10.0,
+        55.0
+      ],
+      "zoom": 4,
+      "bounds": {
+        "lat_min": -30.0,
+        "lat_max": 10.0,
+        "lon_min": 30.0,
+        "lon_max": 80.0
+      },
+      "key_ports": [
+        "Durban",
+        "Mombasa",
+        "Dar es Salaam",
+        "Mumbai",
+        "Muscat"
+      ],
+      "vessel_count": 1,
+      "updated_at": "2026-03-20 22:16:59",
+      "data_url": "/data/Indian_Ocean_West.json"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "zone": "Indian_Ocean_West",
+  "zone_name": "Western Indian Ocean",
+  "zone_description": "Key route for oil tankers from the Persian Gulf to Europe and the Americas.",
+  "bounds": {
+    "lat_min": -30.0,
+    "lat_max": 10.0,
+    "lon_min": 30.0,
+    "lon_max": 80.0
+  },
+  "key_ports": [
+    "Durban",
+    "Mombasa",
+    "Dar es Salaam",
+    "Mumbai",
+    "Muscat"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 1,
+  "stats": {
+    "ships": 1,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "ZA",
+        1,
+        "South Africa"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Tanker",
+        1
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "601234567",
+      "name": "AFRICA TRADER",
+      "flag": "ZA",
+      "flag_name": "South Africa",
+      "ship_type_code": 80,
+      "ship_type_name": "Tanker",
+      "cargo_hs": "2709",
+      "cargo_name": "crude_oil",
+      "position": {
+        "lat": -15.0,
+        "lon": 45.0
+      },
+      "speed": 12.5,
+      "heading": 225,
+      "destination": "DURBAN",
+      "eta": null
+    }
+  ]
+}

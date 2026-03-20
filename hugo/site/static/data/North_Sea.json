@@ -1,0 +1,136 @@
+{
+  "zone": "North_Sea",
+  "zone_name": "North Sea",
+  "zone_description": "One of the world's busiest shipping lanes connecting major European ports.",
+  "bounds": {
+    "lat_min": 51.0,
+    "lat_max": 61.0,
+    "lon_min": -4.0,
+    "lon_max": 10.0
+  },
+  "key_ports": [
+    "Rotterdam",
+    "Antwerp",
+    "Hamburg",
+    "Amsterdam",
+    "Felixstowe",
+    "Oslo"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 4,
+  "stats": {
+    "ships": 4,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "NO",
+        1,
+        "Norway"
+      ],
+      [
+        "DE",
+        1,
+        "Germany"
+      ],
+      [
+        "NL",
+        1,
+        "Netherlands"
+      ],
+      [
+        "GB",
+        1,
+        "United Kingdom"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Tanker",
+        2
+      ],
+      [
+        "Cargo",
+        2
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "257234567",
+      "name": "STATOIL PIONEER",
+      "flag": "NO",
+      "flag_name": "Norway",
+      "ship_type_code": 80,
+      "ship_type_name": "Tanker",
+      "cargo_hs": "2709",
+      "cargo_name": "crude_oil",
+      "position": {
+        "lat": 58.5,
+        "lon": 2.8
+      },
+      "speed": 13.1,
+      "heading": 180,
+      "destination": "ROTTERDAM",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "211456789",
+      "name": "ATLANTIC TRADER",
+      "flag": "DE",
+      "flag_name": "Germany",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "9999",
+      "cargo_name": "general_cargo",
+      "position": {
+        "lat": 55.2,
+        "lon": 7.4
+      },
+      "speed": 11.8,
+      "heading": 225,
+      "destination": "HAMBURG",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "244789012",
+      "name": "MERCATOR AMSTERDAM",
+      "flag": "NL",
+      "flag_name": "Netherlands",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 53.2,
+        "lon": 3.5
+      },
+      "speed": 15.6,
+      "heading": 270,
+      "destination": "AMSTERDAM",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "235012789",
+      "name": "NORTH BRIDGE",
+      "flag": "GB",
+      "flag_name": "United Kingdom",
+      "ship_type_code": 85,
+      "ship_type_name": "Tanker",
+      "cargo_hs": "2710",
+      "cargo_name": "petroleum",
+      "position": {
+        "lat": 56.5,
+        "lon": -0.5
+      },
+      "speed": 10.2,
+      "heading": null,
+      "destination": "ABERDEEN",
+      "eta": null
+    }
+  ]
+}

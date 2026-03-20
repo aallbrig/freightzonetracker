@@ -1,0 +1,131 @@
+{
+  "zone": "English_Channel",
+  "zone_name": "English Channel",
+  "zone_description": "One of the most congested shipping lanes in the world with over 500 ships transiting daily.",
+  "bounds": {
+    "lat_min": 49.0,
+    "lat_max": 52.0,
+    "lon_min": -5.5,
+    "lon_max": 2.5
+  },
+  "key_ports": [
+    "Dover",
+    "Calais",
+    "Southampton",
+    "Le Havre",
+    "Portsmouth"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 4,
+  "stats": {
+    "ships": 4,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "GB",
+        1,
+        "United Kingdom"
+      ],
+      [
+        "MT",
+        1,
+        "Malta"
+      ],
+      [
+        "FR",
+        1,
+        "France"
+      ],
+      [
+        "NL",
+        1,
+        "Netherlands"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Cargo",
+        4
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "235067890",
+      "name": "MAERSK BRANI",
+      "flag": "GB",
+      "flag_name": "United Kingdom",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 50.8,
+        "lon": 1.2
+      },
+      "speed": 18.4,
+      "heading": 45,
+      "destination": "ROTTERDAM",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "248345678",
+      "name": "MSC BEATRICE",
+      "flag": "MT",
+      "flag_name": "Malta",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 50.5,
+        "lon": -0.5
+      },
+      "speed": 19.7,
+      "heading": 270,
+      "destination": "FELIXSTOWE",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "227123456",
+      "name": "CMA CGM RIGEL",
+      "flag": "FR",
+      "flag_name": "France",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 50.1,
+        "lon": 0.8
+      },
+      "speed": 17.2,
+      "heading": 60,
+      "destination": "LE HAVRE",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "244012345",
+      "name": "FLANDRIA SEAWAYS",
+      "flag": "NL",
+      "flag_name": "Netherlands",
+      "ship_type_code": 79,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "9999",
+      "cargo_name": "general_cargo",
+      "position": {
+        "lat": 51.2,
+        "lon": 2.1
+      },
+      "speed": 14.0,
+      "heading": 45,
+      "destination": "ANTWERP",
+      "eta": null
+    }
+  ]
+}

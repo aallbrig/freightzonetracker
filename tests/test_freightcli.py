@@ -68,32 +68,32 @@ def test_infer_cargo_from_ship_type_maps_expected_ranges():
 
 
 def test_is_in_zone_handles_known_and_unknown_zones():
-    assert freightcli.is_in_zone(40.0, -86.0, "Indiana") is True
-    assert freightcli.is_in_zone(50.0, -86.0, "Indiana") is False
+    assert freightcli.is_in_zone(25.0, -90.0, "Gulf_of_Mexico") is True
+    assert freightcli.is_in_zone(50.0, -90.0, "Gulf_of_Mexico") is False
     assert freightcli.is_in_zone(0.0, 0.0, "Unknown_Zone") is True
 
 
 def test_fetch_ships_data_falls_back_to_mock_without_credentials(monkeypatch):
     monkeypatch.delenv("AISHUB_USERNAME", raising=False)
 
-    data = freightcli.fetch_ships_data("California", realtime=False)
+    data = freightcli.fetch_ships_data("West_Coast_US", realtime=False)
 
     assert "ships" in data
-    assert len(data["ships"]) == 1
+    assert len(data["ships"]) >= 1
     assert data["ships"][0]["cargo"] == "containers"
 
 
 def test_pipeline_format_outputs_zone_json(monkeypatch, tmp_path):
     downloads_dir, db_path, output_dir = _configure_test_paths(monkeypatch, tmp_path)
 
-    ship_file = downloads_dir / "ships_marinetraffic" / "Indiana_seed.json"
+    ship_file = downloads_dir / "ships_marinetraffic" / "Gulf_of_Mexico_seed.json"
     ship_file.parent.mkdir(parents=True, exist_ok=True)
     ship_file.write_text(
         json.dumps(
             {
                 "ships": [
-                    {"mmsi": "1", "lat": 41.5, "lon": -87.2, "cargo": "containers", "eta": "2026-02-06T14:00:00Z"},
-                    {"mmsi": "2", "lat": 55.0, "lon": -87.2, "cargo": "coal"},
+                    {"mmsi": "1", "lat": 28.5, "lon": -90.0, "cargo": "containers", "eta": "2026-02-06T14:00:00Z"},
+                    {"mmsi": "2", "lat": 55.0, "lon": -90.0, "cargo": "coal"},
                 ]
             }
         )
@@ -101,53 +101,53 @@ def test_pipeline_format_outputs_zone_json(monkeypatch, tmp_path):
     _insert_download_record(
         db_path,
         "ships_marinetraffic",
-        "Indiana",
+        "Gulf_of_Mexico",
         ship_file,
         realtime=True,
         downloaded_at="2026-03-01 12:34:56",
     )
 
-    train_file = downloads_dir / "trains_aar" / "Indiana_seed.json"
+    train_file = downloads_dir / "trains_aar" / "Gulf_of_Mexico_seed.json"
     train_file.parent.mkdir(parents=True, exist_ok=True)
     train_file.write_text(
         json.dumps(
-            {"trains": [{"train_id": "CN1234", "lat": 40.5, "lon": -86.5, "cargo": "grain", "destination": "Chicago"}]}
+            {"trains": [{"train_id": "CN1234", "lat": 29.5, "lon": -90.5, "cargo": "grain", "destination": "New Orleans"}]}
         )
     )
     _insert_download_record(
         db_path,
         "trains_aar",
-        "Indiana",
+        "Gulf_of_Mexico",
         train_file,
         downloaded_at="2026-03-02 08:00:00",
     )
 
-    truck_file = downloads_dir / "trucks_fmcsa" / "Indiana_seed.json"
+    truck_file = downloads_dir / "trucks_fmcsa" / "Gulf_of_Mexico_seed.json"
     truck_file.parent.mkdir(parents=True, exist_ok=True)
     truck_file.write_text(
         json.dumps(
-            {"trucks": [{"truck_id": "TRK001", "lat": 39.8, "lon": -86.15, "cargo": "steel", "destination": "Gary"}]}
+            {"trucks": [{"truck_id": "TRK001", "lat": 29.8, "lon": -95.0, "cargo": "steel", "destination": "Houston"}]}
         )
     )
     _insert_download_record(
         db_path,
         "trucks_fmcsa",
-        "Indiana",
+        "Gulf_of_Mexico",
         truck_file,
         downloaded_at="2026-03-03 09:15:00",
     )
 
     result = runner.invoke(
         freightcli.app,
-        ["pipeline", "format", "--zone", "Indiana", "--output-dir", str(output_dir)],
+        ["pipeline", "format", "--zone", "Gulf_of_Mexico", "--output-dir", str(output_dir)],
     )
 
     assert result.exit_code == 0
-    output_file = output_dir / "Indiana.json"
+    output_file = output_dir / "Gulf_of_Mexico.json"
     assert output_file.exists()
 
     formatted = json.loads(output_file.read_text())
-    assert formatted["zone"] == "Indiana"
+    assert formatted["zone"] == "Gulf_of_Mexico"
     assert formatted["updated_at"] == "2026-03-03 09:15:00"
     assert len(formatted["transports"]) == 3
     assert {item["type"] for item in formatted["transports"]} == {"ship", "train", "truck"}

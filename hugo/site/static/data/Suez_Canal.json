@@ -1,0 +1,85 @@
+{
+  "zone": "Suez_Canal",
+  "zone_name": "Suez Canal",
+  "zone_description": "World's most important artificial waterway connecting the Mediterranean to the Red Sea.",
+  "bounds": {
+    "lat_min": 28.5,
+    "lat_max": 32.5,
+    "lon_min": 31.5,
+    "lon_max": 36.0
+  },
+  "key_ports": [
+    "Port Said",
+    "Suez",
+    "Ismailia"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 2,
+  "stats": {
+    "ships": 2,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "MT",
+        1,
+        "Malta"
+      ],
+      [
+        "LR",
+        1,
+        "Liberia"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Cargo",
+        1
+      ],
+      [
+        "Tanker",
+        1
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "256789012",
+      "name": "EVER ACE",
+      "flag": "MT",
+      "flag_name": "Malta",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 31.8,
+        "lon": 32.3
+      },
+      "speed": 8.5,
+      "heading": 135,
+      "destination": "PORT SAID",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "636345678",
+      "name": "LIBERIA STAR",
+      "flag": "LR",
+      "flag_name": "Liberia",
+      "ship_type_code": 80,
+      "ship_type_name": "Tanker",
+      "cargo_hs": "2709",
+      "cargo_name": "crude_oil",
+      "position": {
+        "lat": 30.1,
+        "lon": 32.5
+      },
+      "speed": 9.2,
+      "heading": null,
+      "destination": "SUEZ",
+      "eta": null
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "zone": "Gulf_of_Mexico",
+  "zone_name": "Gulf of Mexico",
+  "zone_description": "Critical hub for petroleum exports and bulk agricultural commodities from the US interior.",
+  "bounds": {
+    "lat_min": 18.0,
+    "lat_max": 31.0,
+    "lon_min": -98.0,
+    "lon_max": -81.0
+  },
+  "key_ports": [
+    "New Orleans",
+    "Houston",
+    "Tampa",
+    "Mobile",
+    "Corpus Christi",
+    "Veracruz"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 3,
+  "stats": {
+    "ships": 3,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "US",
+        2,
+        "United States"
+      ],
+      [
+        "PA",
+        1,
+        "Panama"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Tanker",
+        2
+      ],
+      [
+        "Cargo",
+        1
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "367456789",
+      "name": "EAGLE HOUSTON",
+      "flag": "US",
+      "flag_name": "United States",
+      "ship_type_code": 80,
+      "ship_type_name": "Tanker",
+      "cargo_hs": "2709",
+      "cargo_name": "crude_oil",
+      "position": {
+        "lat": 28.5,
+        "lon": -92.3
+      },
+      "speed": 12.0,
+      "heading": 180,
+      "destination": "HOUSTON",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "339567890",
+      "name": "CIMBRIA",
+      "flag": "PA",
+      "flag_name": "Panama",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "1001",
+      "cargo_name": "grain",
+      "position": {
+        "lat": 24.5,
+        "lon": -87.0
+      },
+      "speed": 14.3,
+      "heading": 315,
+      "destination": "NEW ORLEANS",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "367000111",
+      "name": "AMERICAN PETROLEUM",
+      "flag": "US",
+      "flag_name": "United States",
+      "ship_type_code": 85,
+      "ship_type_name": "Tanker",
+      "cargo_hs": "2710",
+      "cargo_name": "petroleum",
+      "position": {
+        "lat": 29.3,
+        "lon": -89.5
+      },
+      "speed": 8.5,
+      "heading": 90,
+      "destination": "MOBILE",
+      "eta": null
+    }
+  ]
+}

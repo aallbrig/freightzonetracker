@@ -1,0 +1,83 @@
+{
+  "zone": "East_China_Sea",
+  "zone_name": "East China Sea",
+  "zone_description": "High-traffic maritime zone between China, Japan, South Korea, and Taiwan.",
+  "bounds": {
+    "lat_min": 24.0,
+    "lat_max": 36.0,
+    "lon_min": 118.0,
+    "lon_max": 132.0
+  },
+  "key_ports": [
+    "Shanghai",
+    "Ningbo",
+    "Osaka",
+    "Busan",
+    "Taipei"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 2,
+  "stats": {
+    "ships": 2,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "JP",
+        1,
+        "Japan"
+      ],
+      [
+        "KR",
+        1,
+        "South Korea"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Cargo",
+        2
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "431234567",
+      "name": "MOL TRIUMPH",
+      "flag": "JP",
+      "flag_name": "Japan",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 31.2,
+        "lon": 122.8
+      },
+      "speed": 18.2,
+      "heading": 45,
+      "destination": "OSAKA",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "441234567",
+      "name": "HMM ALGECIRAS",
+      "flag": "KR",
+      "flag_name": "South Korea",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 28.5,
+        "lon": 124.5
+      },
+      "speed": 17.8,
+      "heading": 315,
+      "destination": "BUSAN",
+      "eta": null
+    }
+  ]
+}

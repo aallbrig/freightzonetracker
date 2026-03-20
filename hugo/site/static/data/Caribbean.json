@@ -1,0 +1,59 @@
+{
+  "zone": "Caribbean",
+  "zone_name": "Caribbean Sea",
+  "zone_description": "Key transit zone for vessels moving between the Atlantic and the Panama Canal.",
+  "bounds": {
+    "lat_min": 9.0,
+    "lat_max": 24.0,
+    "lon_min": -88.0,
+    "lon_max": -59.0
+  },
+  "key_ports": [
+    "Kingston",
+    "Cartagena",
+    "Havana",
+    "Willemstad",
+    "Port of Spain"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 1,
+  "stats": {
+    "ships": 1,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "PA",
+        1,
+        "Panama"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Cargo",
+        1
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "353456789",
+      "name": "CARIBBEAN TRADER",
+      "flag": "PA",
+      "flag_name": "Panama",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "9999",
+      "cargo_name": "general_cargo",
+      "position": {
+        "lat": 15.5,
+        "lon": -75.0
+      },
+      "speed": 13.8,
+      "heading": 270,
+      "destination": "CARTAGENA",
+      "eta": null
+    }
+  ]
+}

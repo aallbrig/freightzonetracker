@@ -1,0 +1,122 @@
+{
+  "zone": "Great_Lakes",
+  "zone_name": "Great Lakes",
+  "zone_description": "Five interconnected freshwater lakes forming North America's largest freshwater lake system, central to bulk cargo shipping.",
+  "bounds": {
+    "lat_min": 41.5,
+    "lat_max": 49.0,
+    "lon_min": -92.5,
+    "lon_max": -75.5
+  },
+  "key_ports": [
+    "Duluth-Superior",
+    "Chicago",
+    "Detroit",
+    "Cleveland",
+    "Buffalo",
+    "Hamilton"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 4,
+  "stats": {
+    "ships": 4,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "US",
+        2,
+        "United States"
+      ],
+      [
+        "CA",
+        2,
+        "Canada"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Cargo",
+        4
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "366982840",
+      "name": "AMERICAN SPIRIT",
+      "flag": "US",
+      "flag_name": "United States",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "2601",
+      "cargo_name": "iron_ore",
+      "position": {
+        "lat": 46.8,
+        "lon": -84.5
+      },
+      "speed": 12.2,
+      "heading": 270,
+      "destination": "DULUTH",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "316001234",
+      "name": "FEDERAL ELBE",
+      "flag": "CA",
+      "flag_name": "Canada",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "1001",
+      "cargo_name": "grain",
+      "position": {
+        "lat": 47.2,
+        "lon": -84.8
+      },
+      "speed": 9.8,
+      "heading": 90,
+      "destination": "HAMILTON",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "316045678",
+      "name": "ALGOMA HARVESTER",
+      "flag": "CA",
+      "flag_name": "Canada",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "1001",
+      "cargo_name": "grain",
+      "position": {
+        "lat": 48.5,
+        "lon": -88.3
+      },
+      "speed": 8.1,
+      "heading": 180,
+      "destination": "CHICAGO",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "366112233",
+      "name": "EDGAR B. SPEER",
+      "flag": "US",
+      "flag_name": "United States",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "2601",
+      "cargo_name": "iron_ore",
+      "position": {
+        "lat": 47.0,
+        "lon": -90.0
+      },
+      "speed": 11.5,
+      "heading": 90,
+      "destination": "GARY",
+      "eta": null
+    }
+  ]
+}

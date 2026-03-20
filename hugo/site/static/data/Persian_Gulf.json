@@ -1,0 +1,83 @@
+{
+  "zone": "Persian_Gulf",
+  "zone_name": "Persian Gulf",
+  "zone_description": "Major petroleum export hub handling a significant fraction of global oil shipments.",
+  "bounds": {
+    "lat_min": 22.0,
+    "lat_max": 30.0,
+    "lon_min": 48.0,
+    "lon_max": 58.0
+  },
+  "key_ports": [
+    "Dubai",
+    "Abu Dhabi",
+    "Kuwait City",
+    "Bandar Abbas",
+    "Dammam"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 2,
+  "stats": {
+    "ships": 2,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "SA",
+        1,
+        "Saudi Arabia"
+      ],
+      [
+        "QA",
+        1,
+        "Qatar"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Tanker",
+        2
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "403234567",
+      "name": "ARABIAN SEA",
+      "flag": "SA",
+      "flag_name": "Saudi Arabia",
+      "ship_type_code": 80,
+      "ship_type_name": "Tanker",
+      "cargo_hs": "2709",
+      "cargo_name": "crude_oil",
+      "position": {
+        "lat": 26.1,
+        "lon": 55.5
+      },
+      "speed": 13.5,
+      "heading": 135,
+      "destination": "JEDDAH",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "466345678",
+      "name": "QATAR GAS",
+      "flag": "QA",
+      "flag_name": "Qatar",
+      "ship_type_code": 80,
+      "ship_type_name": "Tanker",
+      "cargo_hs": "2710",
+      "cargo_name": "petroleum",
+      "position": {
+        "lat": 25.4,
+        "lon": 52.8
+      },
+      "speed": 10.2,
+      "heading": 90,
+      "destination": "DUBAI",
+      "eta": null
+    }
+  ]
+}

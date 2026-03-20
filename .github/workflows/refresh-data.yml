@@ -31,9 +31,7 @@ jobs:
           AISHUB_USERNAME: ${{ secrets.AISHUB_USERNAME }}
         run: |
           set -euo pipefail
-          zones=("Indiana" "Lake_Superior" "California")
-
-          for zone in "${zones[@]}"; do
+          for zone in Great_Lakes Gulf_of_Mexico East_Coast_US West_Coast_US Caribbean North_Sea English_Channel Mediterranean Suez_Canal Red_Sea Persian_Gulf Strait_of_Malacca South_China_Sea East_China_Sea Panama_Canal Bay_of_Bengal Indian_Ocean_West; do
             python freightcli.py pipeline download --source=ships_marinetraffic --zone="$zone" --realtime
             python freightcli.py pipeline download --source=trains_aar --zone="$zone"
             python freightcli.py pipeline download --source=trucks_fmcsa --zone="$zone"
@@ -43,7 +41,7 @@ jobs:
       - name: Commit refreshed data
         run: |
           set -euo pipefail
-          if git diff --quiet -- hugo/site/static/data; then
+          if git diff --quiet -- hugo/site/static/data/*.json; then
             echo "No tracked data changes to commit."
             exit 0
           fi

@@ -1,0 +1,59 @@
+{
+  "zone": "Bay_of_Bengal",
+  "zone_name": "Bay of Bengal",
+  "zone_description": "Important route for South Asian trade, serving Bangladesh, India, and Myanmar.",
+  "bounds": {
+    "lat_min": 5.0,
+    "lat_max": 23.0,
+    "lon_min": 78.0,
+    "lon_max": 100.0
+  },
+  "key_ports": [
+    "Chittagong",
+    "Chennai",
+    "Kolkata",
+    "Yangon",
+    "Colombo"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 1,
+  "stats": {
+    "ships": 1,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "IN",
+        1,
+        "India"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Cargo",
+        1
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "419123456",
+      "name": "MUMBAI CARRIER",
+      "flag": "IN",
+      "flag_name": "India",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "9999",
+      "cargo_name": "general_cargo",
+      "position": {
+        "lat": 13.5,
+        "lon": 85.2
+      },
+      "speed": 11.0,
+      "heading": 270,
+      "destination": "COLOMBO",
+      "eta": null
+    }
+  ]
+}

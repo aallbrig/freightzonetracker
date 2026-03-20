@@ -1,0 +1,110 @@
+{
+  "zone": "Strait_of_Malacca",
+  "zone_name": "Strait of Malacca",
+  "zone_description": "One of the most important shipping chokepoints in the world, between Malaysia and Indonesia.",
+  "bounds": {
+    "lat_min": 1.0,
+    "lat_max": 6.5,
+    "lon_min": 99.5,
+    "lon_max": 104.5
+  },
+  "key_ports": [
+    "Singapore",
+    "Port Klang",
+    "Penang",
+    "Batam"
+  ],
+  "updated_at": "2026-03-20 22:16:59",
+  "vessel_count": 3,
+  "stats": {
+    "ships": 3,
+    "trains": 0,
+    "trucks": 0,
+    "top_flags": [
+      [
+        "HK",
+        1,
+        "Hong Kong"
+      ],
+      [
+        "SG",
+        1,
+        "Singapore"
+      ],
+      [
+        "ID",
+        1,
+        "Indonesia"
+      ]
+    ],
+    "top_ship_types": [
+      [
+        "Cargo",
+        2
+      ],
+      [
+        "Tanker",
+        1
+      ]
+    ]
+  },
+  "transports": [
+    {
+      "type": "ship",
+      "mmsi": "477123456",
+      "name": "ORIENT OVERSEAS",
+      "flag": "HK",
+      "flag_name": "Hong Kong",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "8609",
+      "cargo_name": "containers",
+      "position": {
+        "lat": 2.8,
+        "lon": 103.5
+      },
+      "speed": 14.2,
+      "heading": 315,
+      "destination": "SINGAPORE",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "564123456",
+      "name": "PACIFIC CARRIER",
+      "flag": "SG",
+      "flag_name": "Singapore",
+      "ship_type_code": 80,
+      "ship_type_name": "Tanker",
+      "cargo_hs": "2710",
+      "cargo_name": "petroleum",
+      "position": {
+        "lat": 1.8,
+        "lon": 104.2
+      },
+      "speed": 12.0,
+      "heading": 315,
+      "destination": "PORT KLANG",
+      "eta": null
+    },
+    {
+      "type": "ship",
+      "mmsi": "525678901",
+      "name": "JAKARTA EXPRESS",
+      "flag": "ID",
+      "flag_name": "Indonesia",
+      "ship_type_code": 70,
+      "ship_type_name": "Cargo",
+      "cargo_hs": "9999",
+      "cargo_name": "general_cargo",
+      "position": {
+        "lat": 4.5,
+        "lon": 101.0
+      },
+      "speed": 10.8,
+      "heading": 135,
+      "destination": "BATAM",
+      "eta": null
+    }
+  ]
+}

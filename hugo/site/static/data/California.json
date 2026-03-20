@@ -1,18 +1,7 @@
 {
   "zone": "California",
-  "updated_at": "2026-03-20 12:28:23",
+  "updated_at": "2026-03-20 18:28:52",
   "transports": [
-    {
-      "type": "truck",
-      "cargo_hs": "9999",
-      "cargo_name": "general_cargo",
-      "position": {
-        "lat": 37.8,
-        "lon": -122.4
-      },
-      "destination": "San Francisco",
-      "route_progress": "75%"
-    },
     {
       "type": "ship",
       "cargo_hs": "8609",
@@ -34,6 +23,17 @@
       },
       "destination": "Los Angeles",
       "route_progress": "60%"
+    },
+    {
+      "type": "truck",
+      "cargo_hs": "9999",
+      "cargo_name": "general_cargo",
+      "position": {
+        "lat": 37.8,
+        "lon": -122.4
+      },
+      "destination": "San Francisco",
+      "route_progress": "75%"
     }
   ]
 }

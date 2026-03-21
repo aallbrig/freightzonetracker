@@ -23,7 +23,10 @@ echo "🧪 Testing FreightZoneTracker MVP"
 echo "=================================="
 echo ""
 
-if [ -f "venv/bin/activate" ]; then
+if [ -f ".venv/bin/activate" ]; then
+    # shellcheck disable=SC1091
+    source .venv/bin/activate
+elif [ -f "venv/bin/activate" ]; then
     # shellcheck disable=SC1091
     source venv/bin/activate
 fi
@@ -44,18 +47,19 @@ echo "   ✓ Status command works"
 
 echo ""
 echo "3. Testing pipeline download..."
-python freightcli.py pipeline download --source=ships_marinetraffic --zone=Indiana > /dev/null 2>&1
+python freightcli.py pipeline download --source=ships_marinetraffic --zone=Gulf_of_Mexico > /dev/null 2>&1
 echo "   ✓ Pipeline download works"
 
 echo ""
 echo "4. Testing pipeline format..."
-python freightcli.py pipeline format --zone=Indiana --output-dir "$FORMAT_OUTPUT_DIR" > /dev/null 2>&1
+python freightcli.py pipeline format --zone=Gulf_of_Mexico --output-dir "$FORMAT_OUTPUT_DIR" > /dev/null 2>&1
 echo "   ✓ Pipeline format works"
 
 echo ""
 echo "5. Testing audit commands..."
 python freightcli.py audit db > /dev/null 2>&1
-echo "   ✓ Audit db works"
+python freightcli.py audit vessels > /dev/null 2>&1
+echo "   ✓ Audit db + vessels works"
 
 echo ""
 echo "6. Testing Hugo build..."

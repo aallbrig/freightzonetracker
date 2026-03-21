@@ -1,10 +1,31 @@
 baseURL = "http://localhost:1313/"
-languageCode = "en-us"
 title = "FreightZoneTracker"
+defaultContentLanguage = "en"
 
 [params]
-  description = "Track freight movement through geographic zones"
+  description = "Explore global maritime vessel movements — ships, cargo types, and trade routes in real time."
   author = "FreightZoneTracker"
+  githubURL = "https://github.com/aallbrig/freightzonetracker"
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    languageCode = "en-us"
+    weight = 1
+    [languages.en.params]
+      description = "Explore global maritime vessel movements — ships, cargo types, and trade routes in real time."
+  [languages.es]
+    languageName = "Español"
+    languageCode = "es"
+    weight = 2
+    [languages.es.params]
+      description = "Explora el movimiento de buques marítimos globales — barcos, tipos de carga y rutas comerciales en tiempo real."
+  [languages.fr]
+    languageName = "Français"
+    languageCode = "fr"
+    weight = 3
+    [languages.fr.params]
+      description = "Explorez les mouvements mondiaux de navires maritimes — bateaux, types de cargaison et routes commerciales en temps réel."
 
 [markup]
   [markup.goldmark]

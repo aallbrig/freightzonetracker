@@ -1,0 +1,74 @@
+[nav_about]
+other = "About"
+
+[lang_label]
+other = "Language"
+
+[search_placeholder]
+other = "Search regions…"
+
+[select_region_hint]
+other = "← Select a region to view statistics"
+
+[loading_regions]
+other = "Loading regions…"
+
+[no_regions]
+other = "No regions available. Run the CLI to populate data."
+
+[vessels_singular]
+other = "vessel"
+
+[vessels_plural]
+other = "vessels"
+
+[label_ships]
+other = "Ships"
+
+[label_trains]
+other = "Trains"
+
+[label_trucks]
+other = "Trucks"
+
+[label_updated]
+other = "Updated"
+
+[clear_zone_btn]
+other = "✕ Clear custom zone"
+
+[no_flag_data]
+other = "No flag data"
+
+[popup_type]
+other = "Type"
+
+[popup_cargo]
+other = "Cargo"
+
+[popup_flag]
+other = "Flag"
+
+[popup_speed]
+other = "Speed"
+
+[popup_heading]
+other = "Heading"
+
+[popup_destination]
+other = "Destination"
+
+[popup_position]
+other = "Position"
+
+[popup_mmsi]
+other = "MMSI"
+
+[footer_tagline]
+other = "Global maritime vessel explorer — powered by AIS data."
+
+[footer_data_credit]
+other = "Vessel data via AISHub"
+
+[footer_refresh]
+other = "Refreshed every 6 hours"

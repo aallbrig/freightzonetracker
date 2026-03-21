@@ -1,0 +1,74 @@
+[nav_about]
+other = "À propos"
+
+[lang_label]
+other = "Langue"
+
+[search_placeholder]
+other = "Rechercher des régions…"
+
+[select_region_hint]
+other = "← Sélectionnez une région pour voir les statistiques"
+
+[loading_regions]
+other = "Chargement des régions…"
+
+[no_regions]
+other = "Aucune région disponible."
+
+[vessels_singular]
+other = "navire"
+
+[vessels_plural]
+other = "navires"
+
+[label_ships]
+other = "Navires"
+
+[label_trains]
+other = "Trains"
+
+[label_trucks]
+other = "Camions"
+
+[label_updated]
+other = "Mis à jour"
+
+[clear_zone_btn]
+other = "✕ Effacer la zone personnalisée"
+
+[no_flag_data]
+other = "Aucune donnée de pavillon"
+
+[popup_type]
+other = "Type"
+
+[popup_cargo]
+other = "Cargaison"
+
+[popup_flag]
+other = "Pavillon"
+
+[popup_speed]
+other = "Vitesse"
+
+[popup_heading]
+other = "Cap"
+
+[popup_destination]
+other = "Destination"
+
+[popup_position]
+other = "Position"
+
+[popup_mmsi]
+other = "MMSI"
+
+[footer_tagline]
+other = "Explorateur mondial de navires maritimes — propulsé par les données AIS."
+
+[footer_data_credit]
+other = "Données navires via AISHub"
+
+[footer_refresh]
+other = "Actualisé toutes les 6 heures"

@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ .Site.Language.Lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Site.Title }}</title>
-    <link rel="icon" href="data:,">
+    <title>{{ if .IsHome }}{{ .Site.Title }} — {{ .Site.Params.description }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    <meta property="og:title" content="{{ .Site.Title }}">
+    <meta property="og:description" content="{{ .Site.Params.description }}">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚢</text></svg>">
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -101,8 +106,26 @@
 </head>
 <body>
     <nav class="navbar navbar-dark mb-4">
-        <div class="container">
-            <span class="navbar-brand">🚢 {{ .Site.Title }}</span>
+        <div class="container d-flex align-items-center">
+            <a class="navbar-brand text-decoration-none text-white" href="{{ "/" | relLangURL }}">🚢 {{ .Site.Title }}</a>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <a class="text-white text-decoration-none small opacity-75" href="{{ "about" | relLangURL }}">{{ T "nav_about" }}</a>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-light dropdown-toggle py-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        🌐 {{ .Site.Language.LanguageName }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        {{ range .Site.Languages }}
+                        <li>
+                            <a class="dropdown-item{{ if eq .Lang $.Site.Language.Lang }} active{{ end }}"
+                               href="{{ if eq .Lang "en" }}/{{ else }}/{{ .Lang }}/{{ end }}">
+                                {{ .LanguageName }}
+                            </a>
+                        </li>
+                        {{ end }}
+                    </ul>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -111,8 +134,9 @@
     </main>
 
     <footer class="mt-5 py-4 bg-light">
-        <div class="container text-center text-muted">
-        <p>&copy; 2026 FreightZoneTracker | 17 global maritime regions | Data updated in near real-time</p>
+        <div class="container text-center text-muted small">
+            <p class="mb-1">{{ T "footer_tagline" }}</p>
+            <p class="mb-0">{{ T "footer_data_credit" }} · {{ T "footer_refresh" }} · <a href="{{ "about" | relLangURL }}" class="text-muted">{{ T "nav_about" }}</a></p>
         </div>
     </footer>
 

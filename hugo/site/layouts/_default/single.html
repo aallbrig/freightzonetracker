@@ -1,5 +1,12 @@
 {{ define "main" }}
-<div class="container">
-    {{ .Content }}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      <h1 class="mb-4">{{ .Title }}</h1>
+      <div class="content">
+        {{ .Content }}
+      </div>
+    </div>
+  </div>
 </div>
 {{ end }}

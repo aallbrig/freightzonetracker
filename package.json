@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "description": "Test tooling for FreightZoneTracker",
   "scripts": {
-    "test": "node test-e2e.js",
+    "test": "playwright test",
     "test:e2e": "node test-e2e.js",
-    "test:e2e:simple": "bash test-e2e-simple.sh"
+    "test:e2e:simple": "bash test-e2e-simple.sh",
+    "test:playwright": "playwright test"
   },
   "dependencies": {
     "puppeteer": "^21.11.0"
-  }
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  },
+  "type": "module"
 }

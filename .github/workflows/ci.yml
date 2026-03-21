@@ -37,5 +37,14 @@ jobs:
       - name: Install Node dependencies
         run: npm ci
 
-      - name: Run repository test suite
-        run: bash test.sh
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Run Python unit tests
+        run: pytest -q
+
+      - name: Run Hugo build
+        run: cd hugo/site && hugo --quiet
+
+      - name: Run Playwright tests
+        run: npx playwright test

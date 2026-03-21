@@ -61,20 +61,22 @@
 <script>
 // i18n strings baked in at build time by Hugo
 var _t = {
-  noRegions:       {{ T "no_regions" | jsonify }},
-  noFlagData:      {{ T "no_flag_data" | jsonify }},
-  updated:         {{ T "label_updated" | jsonify }},
-  vesselsSingular: {{ T "vessels_singular" | jsonify }},
-  vesselsPlural:   {{ T "vessels_plural" | jsonify }},
-  popupType:       {{ T "popup_type" | jsonify }},
-  popupCargo:      {{ T "popup_cargo" | jsonify }},
-  popupFlag:       {{ T "popup_flag" | jsonify }},
-  popupSpeed:      {{ T "popup_speed" | jsonify }},
-  popupHeading:    {{ T "popup_heading" | jsonify }},
-  popupDest:       {{ T "popup_destination" | jsonify }},
-  popupPos:        {{ T "popup_position" | jsonify }},
-  popupMmsi:       {{ T "popup_mmsi" | jsonify }},
+  noRegions:       {{ T "no_regions" | jsonify | safeJS }},
+  noFlagData:      {{ T "no_flag_data" | jsonify | safeJS }},
+  updated:         {{ T "label_updated" | jsonify | safeJS }},
+  vesselsSingular: {{ T "vessels_singular" | jsonify | safeJS }},
+  vesselsPlural:   {{ T "vessels_plural" | jsonify | safeJS }},
+  popupType:       {{ T "popup_type" | jsonify | safeJS }},
+  popupCargo:      {{ T "popup_cargo" | jsonify | safeJS }},
+  popupFlag:       {{ T "popup_flag" | jsonify | safeJS }},
+  popupSpeed:      {{ T "popup_speed" | jsonify | safeJS }},
+  popupHeading:    {{ T "popup_heading" | jsonify | safeJS }},
+  popupDest:       {{ T "popup_destination" | jsonify | safeJS }},
+  popupPos:        {{ T "popup_position" | jsonify | safeJS }},
+  popupMmsi:       {{ T "popup_mmsi" | jsonify | safeJS }},
 };
+// Base URL baked in so fetch paths work under any subpath (e.g. GitHub Pages)
+var _base = {{ .Site.BaseURL | strings.TrimRight "/" | jsonify | safeJS }};
 
 (function () {
   // ── Wait for all map libraries ────────────────────────────────────────────
@@ -181,7 +183,7 @@ var _t = {
       map.flyTo(r.center, r.zoom, { duration: 0.8 });
     }
 
-    fetch(`/data/${zone}.json`)
+    fetch(`${_base}/data/${zone}.json`)
       .then(res => {
         if (!res.ok) throw new Error(`No data for ${zone} (${res.status})`);
         return res.json();
@@ -294,7 +296,7 @@ var _t = {
     });
 
     // Load regions index
-    fetch('/data/regions.json')
+    fetch(`${_base}/data/regions.json`)
       .then(res => res.ok ? res.json() : Promise.reject('regions.json not found'))
       .then(data => {
         allRegions = data.regions || [];

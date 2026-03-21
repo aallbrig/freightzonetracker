@@ -32,6 +32,14 @@ else
     exit 1
 fi
 
+# Check if MarkerCluster is included
+if echo "$HTML" | grep -q "markercluster"; then
+    echo "✓ MarkerCluster JS included"
+else
+    echo "❌ MarkerCluster JS not found"
+    exit 1
+fi
+
 # Check if map element exists
 if echo "$HTML" | grep -q 'id="map"'; then
     echo "✓ Map element present"
@@ -40,16 +48,24 @@ else
     exit 1
 fi
 
-# Check if initializeMap function exists (new code)
-if echo "$HTML" | grep -q "function initializeMap"; then
-    echo "✓ New async map initialization code present"
+# Check for sidebar region list
+if echo "$HTML" | grep -q 'id="region-list"'; then
+    echo "✓ Region sidebar present"
 else
-    echo "❌ Old code detected"
+    echo "❌ Region sidebar not found"
     exit 1
 fi
 
-# Check if data files exist
-for zone in Indiana California Lake_Superior; do
+# Check i18n _t object is baked in
+if echo "$HTML" | grep -q 'var _t'; then
+    echo "✓ i18n _t object present"
+else
+    echo "❌ i18n _t object missing"
+    exit 1
+fi
+
+# Check data files exist
+for zone in Gulf_of_Mexico Great_Lakes East_Coast_US West_Coast_US Mediterranean; do
     if curl -fsS "$SITE_URL/data/${zone}.json" > /dev/null 2>&1; then
         echo "✓ Data file exists: ${zone}.json"
     else
@@ -57,11 +73,29 @@ for zone in Indiana California Lake_Superior; do
     fi
 done
 
+# Check regions index
+if curl -fsS "$SITE_URL/data/regions.json" > /dev/null 2>&1; then
+    echo "✓ regions.json index exists"
+else
+    echo "❌ regions.json missing"
+    exit 1
+fi
+
+# Check About page
+if curl -fsS "$SITE_URL/about/" > /dev/null 2>&1; then
+    echo "✓ About page accessible"
+else
+    echo "⚠️  About page not found at /about/"
+fi
+
+# Check Spanish and French homepages
+for lang in es fr; do
+    if curl -fsS "$SITE_URL/${lang}/" > /dev/null 2>&1; then
+        echo "✓ /${lang}/ homepage accessible"
+    else
+        echo "⚠️  /${lang}/ homepage not found"
+    fi
+done
+
 echo ""
 echo "✅ All basic checks passed!"
-echo ""
-echo "To test in browser:"
-echo "  1. Open $SITE_URL/"
-echo "  2. Check browser console (F12) for errors"
-echo "  3. Select different zones from dropdown"
-echo "  4. Click markers to see cargo details"

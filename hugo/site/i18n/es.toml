@@ -1,0 +1,74 @@
+[nav_about]
+other = "Acerca de"
+
+[lang_label]
+other = "Idioma"
+
+[search_placeholder]
+other = "Buscar regiones…"
+
+[select_region_hint]
+other = "← Selecciona una región para ver estadísticas"
+
+[loading_regions]
+other = "Cargando regiones…"
+
+[no_regions]
+other = "No hay regiones disponibles."
+
+[vessels_singular]
+other = "buque"
+
+[vessels_plural]
+other = "buques"
+
+[label_ships]
+other = "Buques"
+
+[label_trains]
+other = "Trenes"
+
+[label_trucks]
+other = "Camiones"
+
+[label_updated]
+other = "Actualizado"
+
+[clear_zone_btn]
+other = "✕ Borrar zona personalizada"
+
+[no_flag_data]
+other = "Sin datos de bandera"
+
+[popup_type]
+other = "Tipo"
+
+[popup_cargo]
+other = "Carga"
+
+[popup_flag]
+other = "Bandera"
+
+[popup_speed]
+other = "Velocidad"
+
+[popup_heading]
+other = "Rumbo"
+
+[popup_destination]
+other = "Destino"
+
+[popup_position]
+other = "Posición"
+
+[popup_mmsi]
+other = "MMSI"
+
+[footer_tagline]
+other = "Explorador global de buques marítimos — impulsado por datos AIS."
+
+[footer_data_credit]
+other = "Datos de buques via AISHub"
+
+[footer_refresh]
+other = "Actualizado cada 6 horas"

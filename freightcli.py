@@ -367,6 +367,34 @@ def init_db():
             completed_at TIMESTAMP
         )
     """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS vessel_positions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            mmsi TEXT NOT NULL,
+            name TEXT,
+            flag TEXT,
+            lat REAL NOT NULL,
+            lon REAL NOT NULL,
+            zone TEXT,
+            speed REAL,
+            heading INTEGER,
+            destination TEXT,
+            recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_vpos_mmsi ON vessel_positions(mmsi)")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_vpos_zone ON vessel_positions(zone)")
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS region_snapshots (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            zone TEXT NOT NULL,
+            vessel_count INTEGER NOT NULL,
+            ship_count INTEGER DEFAULT 0,
+            snapshot_date TEXT NOT NULL,
+            recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(zone, snapshot_date)
+        )
+    """)
     
     # Insert default sources
     sources = [
@@ -935,6 +963,9 @@ def pipeline_format(
 
         typer.echo(f"✓ Formatted {len(transports)} transports to: {output_file}")
 
+        # Record vessel positions and daily snapshot for history tracking
+        _record_history(zone, transports)
+
         _update_regions_index(output_path)
 
         log_pipeline_run(command, "success")
@@ -946,6 +977,39 @@ def pipeline_format(
         except Exception:
             pass
         raise typer.Exit(1)
+
+
+def _record_history(zone: str, transports: list):
+    """Store vessel positions and a daily region snapshot in SQLite."""
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        today = datetime.now().strftime('%Y-%m-%d')
+        ship_count = 0
+        for t in transports:
+            if t.get('type') == 'ship' and t.get('mmsi'):
+                ship_count += 1
+                pos = t.get('position', {})
+                cursor.execute(
+                    """INSERT INTO vessel_positions (mmsi, name, flag, lat, lon, zone, speed, heading, destination)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (t['mmsi'], t.get('name'), t.get('flag'),
+                     pos.get('lat'), pos.get('lon'), zone,
+                     t.get('speed'), t.get('heading'), t.get('destination')),
+                )
+        cursor.execute(
+            """INSERT INTO region_snapshots (zone, vessel_count, ship_count, snapshot_date)
+               VALUES (?, ?, ?, ?)
+               ON CONFLICT(zone, snapshot_date) DO UPDATE SET
+                   vessel_count = excluded.vessel_count,
+                   ship_count = excluded.ship_count,
+                   recorded_at = CURRENT_TIMESTAMP""",
+            (zone, len(transports), ship_count, today),
+        )
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        typer.echo(f"  (history recording skipped: {e})", err=True)
 
 
 def _update_regions_index(output_path: Path):
@@ -1178,6 +1242,46 @@ def audit_runs():
     for command, status, started_at in runs:
         status_icon = "✓" if status == "success" else "✗"
         typer.echo(f"{status_icon} {started_at} | {command}")
+
+
+@audit_app.command("vessels")
+def audit_vessels():
+    """Show vessel position history statistics."""
+    init_db()
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM vessel_positions")
+    total = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(DISTINCT mmsi) FROM vessel_positions")
+    unique = cursor.fetchone()[0]
+
+    cursor.execute("""
+        SELECT zone, COUNT(*) AS cnt FROM vessel_positions
+        GROUP BY zone ORDER BY cnt DESC LIMIT 10
+    """)
+    by_zone = cursor.fetchall()
+
+    cursor.execute("""
+        SELECT zone, vessel_count, snapshot_date FROM region_snapshots
+        ORDER BY snapshot_date DESC, vessel_count DESC LIMIT 10
+    """)
+    snapshots = cursor.fetchall()
+
+    conn.close()
+
+    typer.echo(f"Total position records : {total}")
+    typer.echo(f"Unique vessels tracked : {unique}")
+    if by_zone:
+        typer.echo("\nTop zones by records:")
+        for zone, cnt in by_zone:
+            typer.echo(f"  {zone}: {cnt}")
+    if snapshots:
+        typer.echo("\nRecent daily snapshots:")
+        for zone, count, date in snapshots:
+            typer.echo(f"  {date}  {zone}: {count} vessels")
 
 
 if __name__ == "__main__":

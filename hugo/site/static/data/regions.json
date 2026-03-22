@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-22T12:28:09.334222",
+  "updated_at": "2026-03-22T18:27:31.350591",
   "region_count": 17,
   "regions": [
     {
@@ -25,7 +25,7 @@
         "Portsmouth"
       ],
       "vessel_count": 4,
-      "updated_at": "2026-03-22 12:27:48",
+      "updated_at": "2026-03-22 18:27:12",
       "data_url": "/data/English_Channel.json"
     },
     {
@@ -52,7 +52,7 @@
         "Hamilton"
       ],
       "vessel_count": 4,
-      "updated_at": "2026-03-22 12:27:37",
+      "updated_at": "2026-03-22 18:27:03",
       "data_url": "/data/Great_Lakes.json"
     },
     {
@@ -79,7 +79,7 @@
         "Oslo"
       ],
       "vessel_count": 4,
-      "updated_at": "2026-03-22 12:27:46",
+      "updated_at": "2026-03-22 18:27:11",
       "data_url": "/data/North_Sea.json"
     },
     {
@@ -106,7 +106,7 @@
         "Veracruz"
       ],
       "vessel_count": 3,
-      "updated_at": "2026-03-22 12:27:38",
+      "updated_at": "2026-03-22 18:27:04",
       "data_url": "/data/Gulf_of_Mexico.json"
     },
     {
@@ -133,7 +133,7 @@
         "Alexandria"
       ],
       "vessel_count": 3,
-      "updated_at": "2026-03-22 12:27:50",
+      "updated_at": "2026-03-22 18:27:14",
       "data_url": "/data/Mediterranean.json"
     },
     {
@@ -158,7 +158,7 @@
         "Batam"
       ],
       "vessel_count": 3,
-      "updated_at": "2026-03-22 12:27:58",
+      "updated_at": "2026-03-22 18:27:21",
       "data_url": "/data/Strait_of_Malacca.json"
     },
     {
@@ -185,7 +185,7 @@
         "Miami"
       ],
       "vessel_count": 3,
-      "updated_at": "2026-03-22 12:27:40",
+      "updated_at": "2026-03-22 18:27:05",
       "data_url": "/data/East_Coast_US.json"
     },
     {
@@ -212,7 +212,7 @@
         "Vancouver"
       ],
       "vessel_count": 3,
-      "updated_at": "2026-03-22 12:27:42",
+      "updated_at": "2026-03-22 18:27:07",
       "data_url": "/data/West_Coast_US.json"
     },
     {
@@ -238,7 +238,7 @@
         "Taipei"
       ],
       "vessel_count": 2,
-      "updated_at": "2026-03-22 12:28:02",
+      "updated_at": "2026-03-22 18:27:24",
       "data_url": "/data/East_China_Sea.json"
     },
     {
@@ -264,7 +264,7 @@
         "Dammam"
       ],
       "vessel_count": 2,
-      "updated_at": "2026-03-22 12:27:56",
+      "updated_at": "2026-03-22 18:27:19",
       "data_url": "/data/Persian_Gulf.json"
     },
     {
@@ -290,7 +290,7 @@
         "Kaohsiung"
       ],
       "vessel_count": 2,
-      "updated_at": "2026-03-22 12:28:00",
+      "updated_at": "2026-03-22 18:27:23",
       "data_url": "/data/South_China_Sea.json"
     },
     {
@@ -314,7 +314,7 @@
         "Ismailia"
       ],
       "vessel_count": 2,
-      "updated_at": "2026-03-22 12:27:52",
+      "updated_at": "2026-03-22 18:27:16",
       "data_url": "/data/Suez_Canal.json"
     },
     {
@@ -340,7 +340,7 @@
         "Colombo"
       ],
       "vessel_count": 1,
-      "updated_at": "2026-03-22 12:28:05",
+      "updated_at": "2026-03-22 18:27:28",
       "data_url": "/data/Bay_of_Bengal.json"
     },
     {
@@ -366,7 +366,7 @@
         "Port of Spain"
       ],
       "vessel_count": 1,
-      "updated_at": "2026-03-22 12:27:44",
+      "updated_at": "2026-03-22 18:27:09",
       "data_url": "/data/Caribbean.json"
     },
     {
@@ -390,7 +390,7 @@
         "Panama City"
       ],
       "vessel_count": 1,
-      "updated_at": "2026-03-22 12:28:04",
+      "updated_at": "2026-03-22 18:27:26",
       "data_url": "/data/Panama_Canal.json"
     },
     {
@@ -415,7 +415,7 @@
         "Djibouti"
       ],
       "vessel_count": 1,
-      "updated_at": "2026-03-22 12:27:54",
+      "updated_at": "2026-03-22 18:27:17",
       "data_url": "/data/Red_Sea.json"
     },
     {
@@ -441,7 +441,7 @@
         "Muscat"
       ],
       "vessel_count": 1,
-      "updated_at": "2026-03-22 12:28:07",
+      "updated_at": "2026-03-22 18:27:29",
       "data_url": "/data/Indian_Ocean_West.json"
     }
   ]
